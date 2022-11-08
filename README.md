@@ -5,9 +5,9 @@
 ### Build the repository
 
 Before you build make sure you have the following:
-- CMake
-- A build system for C++ 20 like VS, Make, Ninja, etc.
-- Up-to-date graphics drivers for whatever your system is
+- [CMake](https://cmake.org/) (v3.8 or newer)
+- A build system for C++ 20 like Visual Studio, Make, [Ninja](https://ninja-build.org/), etc.
+- Up-to-date graphics drivers for your system (preferred)
 
 To build
 1. Open a terminal and navigate to the repository directory
@@ -20,4 +20,4 @@ To build
     - Example: `cmake -B .\out\ -G Ninja`
 1. Move to your `<output_dir>` with `cd <output_dir>` or equivalent
 1. Run your build tools and then the resulting executable
-    - example: `Ninja` then run `<output_dir>/MusicVisualizer/MusicVisualizer.exe`
+    - Example: `Ninja` then run `<output_dir>/MusicVisualizer/MusicVisualizer.exe`
