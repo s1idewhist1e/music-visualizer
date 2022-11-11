@@ -1,3 +1,6 @@
 [submodule "MusicVisualizer/vendor/glfw3"]
 	path = MusicVisualizer/vendor/glfw3
 	url = https://github.com/glfw/glfw
+[submodule "MusicVisualizer/vendor/logger"]
+	path = MusicVisualizer/vendor/logger
+	url = .\\MusicVisualizer\\vendor\\logger\\
