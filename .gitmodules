@@ -4,3 +4,6 @@
 [submodule "MusicVisualizer/vendor/spikeylog"]
 	path = MusicVisualizer/vendor/spikeylog
 	url = https://github.com/s1idewhist1e/spikeylog
+[submodule "MusicVisualizer/vendor/glew"]
+	path = MusicVisualizer/vendor/glew
+	url = https://github.com/nigels-com/glew.git
