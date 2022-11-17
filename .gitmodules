@@ -4,6 +4,3 @@
 [submodule "MusicVisualizer/vendor/spikeylog"]
 	path = MusicVisualizer/vendor/spikeylog
 	url = https://github.com/s1idewhist1e/spikeylog
-[submodule "MusicVisualizer/vendor/portaudio"]
-	path = MusicVisualizer/vendor/portaudio
-	url = https://github.com/PortAudio/portaudio.git
