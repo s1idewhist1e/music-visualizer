@@ -8,14 +8,20 @@ cmake_minimum_required (VERSION 3.8)
 # Add source to this project's executable.
 
 find_package(OpenGL REQUIRED)
+add_subdirectory("vendor/glew")
 add_subdirectory("vendor/glfw3")
+add_subdirectory("vendor/spikeylog")
+add_subdirectory("vendor/portaudio")
 
-include_directories ("src" ${OPENGL_INCLUDE_DIRS})
+# message(${OPENGL_LIBRARIES} "\n")
+message("${OPENGL_INCLUDE_DIRS}")
+
+include_directories ("src" ${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
 
 file (GLOB_RECURSE MV_SOURCES CONFIGURE_DEPENDS "*.cpp")
 
-add_executable (MusicVisualizer ${MV_SOURCES})
-target_link_libraries (MusicVisualizer glfw  ${OPENGL_LIBRARIES})
+add_executable (MusicVisualizer ${MV_SOURCES} "src/Utils/Rendering/Objects/Vertex.h" "src/Utils/Rendering/Objects/TestRenderObject.cpp" "src/Utils/Rendering/Objects/TestRenderObject.h" "src/Utils/Rendering/Objects/VisualizerObject.cpp")
+target_link_libraries (MusicVisualizer glfw glew spikeylog PortAudio ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
 # target_link_libraries (MusicVisualizer glfw)
 
 
