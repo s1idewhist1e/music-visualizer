@@ -28,34 +28,6 @@ int main()
 	renderThread.join();
 	calculationThread.join();
 	return 0;
-
-
-	//GLFWwindow* window;
-
-	//if (!glfwInit()) {
-	//	return -1;
-	//}
-
-	//window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
-
-	//if (!window) {
-	//	glfwTerminate();
-	//	return -1;
-	//}
-
-	//glfwMakeContextCurrent(window);
-
-	//while (!glfwWindowShouldClose(window)) {
-	//	glClear(GL_COLOR_BUFFER_BIT);
-
-	//	glfwSwapBuffers(window);
-
-	//	glfwPollEvents();
-	//}
-
-	//glfwTerminate();
-
-	//return 0;
 }
 
 void update_thread(mvlizer::Database& database, std::shared_ptr<spikeylog::ILogger> logger)
@@ -76,7 +48,7 @@ void update_thread(mvlizer::Database& database, std::shared_ptr<spikeylog::ILogg
 		}
 
 	}
-	catch (std::exception e) {
+	catch (std::runtime_error e) {
 		logger->fatal((std::ostringstream() << "[UPDATE] " << e.what()).str());
 	}
 
@@ -90,7 +62,7 @@ void rendering_thread(mvlizer::Database& database, std::shared_ptr<spikeylog::IL
 		renderer.createWindow();
 		renderer.start();
 	}
-	catch (std::exception e) {
+	catch (std::runtime_error e) {
 		logger->fatal((std::ostringstream() << "[RENDERING] " << e.what()).str());
 	}
 
