@@ -33,9 +33,9 @@ namespace mvlizer {
 		m_logger = logger;
 
 		if (!_isGLFWinit) {
-			m_logger->info("Initializing GLWF...");
+			m_logger->info("Initializing GLFW...");
 			if (!glfwInit())
-				throw std::exception("GLFW Failed to init");
+				throw std::runtime_error("GLFW Failed to init");
 			else {
 				_isGLFWinit = true;
 				m_logger->info("Successfully initialized GLFW");
@@ -112,7 +112,7 @@ namespace mvlizer {
 
 			window = glfwCreateWindow(800, 600, "Window Name", NULL, NULL);
 			if (!window) {
-				throw std::exception("Could not create window!");
+				throw std::runtime_error("Could not create window!");
 			}
 			else {
 				m_logger->trace("Window successfully created");
@@ -122,7 +122,7 @@ namespace mvlizer {
 				glewExperimental = GL_TRUE;
 				GLenum err = glewInit();
 				if (err != GLEW_OK) {
-					throw std::exception((std::ostringstream() << "Error initializing GLEW: " << (char*)glewGetErrorString(err)).str().c_str());
+					throw std::runtime_error((std::ostringstream() << "Error initializing GLEW: " << (char*)glewGetErrorString(err)).str().c_str());
 				}
 				m_logger->trace((std::ostringstream() << "GLEW version " << (char*)glewGetString(GLEW_VERSION) << " successfully initialized").str());
 

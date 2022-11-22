@@ -5,6 +5,7 @@
 #include "BaseRenderObject.h"
 #include "Utils/Data/Database.h"
 #include <vector>
+#include <memory>
 
 namespace mvlizer {
 	class VisualizerObject : public BaseRenderObject {

@@ -6,7 +6,7 @@
 #include <cmath>
 
 namespace mvlizer {
-	static class FourierTransforms {
+	class FourierTransforms {
 	public:
 		static std::vector<std::pair<double, double>> discreteFourierTransform(std::vector<double> dataset, int stride);
 	private:
