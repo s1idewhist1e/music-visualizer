@@ -2,37 +2,131 @@
 //
 
 #include "MusicVisualizer.h"
+#include "Utils/Rendering/Objects/IRenderObject.h"
+#include "Utils/Rendering/Objects/VisualizerObject.h"
 #include <GLFW/glfw3.h>
-
-using namespace std;
 
 int main()
 {
-	GLFWwindow* window;
+	mvlizer::Database data;
 
-	if (!glfwInit()) {
-		return -1;
-	}
+	std::shared_ptr<spikeylog::ILogger> logger(new spikeylog::Logger(std::cout, std::cerr));
 
-	window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+	data.renderObjects = std::vector<mvlizer::IRenderObject*>{ new mvlizer::VisualizerObject(logger, data) };
 
-	if (!window) {
-		glfwTerminate();
-		return -1;
-	}
+#ifndef NDEBUG
+	logger->enableLogLevel(spikeylog::LogLevel::DEBUG, 0);
+	logger->enableLogLevel(spikeylog::LogLevel::TRACE, 0);
+#else
+	logger->disableLogLevel(spikeylog::LogLevel::DEBUG, 0);
+	logger->disableLogLevel(spikeylog::LogLevel::TRACE, 0);
+#endif
 
-	glfwMakeContextCurrent(window);
+	std::thread renderThread(rendering_thread, std::ref(data), logger);
+	std::thread calculationThread(update_thread, std::ref(data), logger);
 
-	while (!glfwWindowShouldClose(window)) {
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		glfwSwapBuffers(window);
-
-		glfwPollEvents();
-	}
-
-	glfwTerminate();
-
+	renderThread.join();
+	calculationThread.join();
 	return 0;
+
+
+	//GLFWwindow* window;
+
+	//if (!glfwInit()) {
+	//	return -1;
+	//}
+
+	//window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+
+	//if (!window) {
+	//	glfwTerminate();
+	//	return -1;
+	//}
+
+	//glfwMakeContextCurrent(window);
+
+	//while (!glfwWindowShouldClose(window)) {
+	//	glClear(GL_COLOR_BUFFER_BIT);
+
+	//	glfwSwapBuffers(window);
+
+	//	glfwPollEvents();
+	//}
+
+	//glfwTerminate();
+
+	//return 0;
 }
 
+void update_thread(mvlizer::Database& database, std::shared_ptr<spikeylog::ILogger> logger)
+{
+	unsigned long tick = 0;
+	auto prev = std::chrono::high_resolution_clock::now();
+	try {
+		while (!database.should_close) {
+			auto time = prev + std::chrono::milliseconds(10);
+			for (mvlizer::IRenderObject* obj : database.renderObjects) {
+				obj->update();
+			}
+			preciseSleepUntil(time);
+			auto later = std::chrono::high_resolution_clock::now();
+			prev = later;
+			database.setUpdateTime(std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(later - time).count());
+			tick++;
+		}
+
+	}
+	catch (std::exception e) {
+		logger->fatal((std::ostringstream() << "[UPDATE] " << e.what()).str());
+	}
+
+}
+
+
+void rendering_thread(mvlizer::Database& database, std::shared_ptr<spikeylog::ILogger> logger)
+{
+	try {
+		mvlizer::Renderer renderer(logger, database);
+		renderer.createWindow();
+		renderer.start();
+	}
+	catch (std::exception e) {
+		logger->fatal((std::ostringstream() << "[RENDERING] " << e.what()).str());
+	}
+
+}
+
+// https://blat-blatnik.github.io/computerBear/making-accurate-sleep-function/
+void preciseSleepUntil(std::chrono::time_point<std::chrono::high_resolution_clock> time) {
+
+	auto now = std::chrono::high_resolution_clock::now();
+	double seconds = std::chrono::duration_cast<std::chrono::duration<double>>(time - now).count();
+
+	using namespace std;
+	using namespace std::chrono;
+
+	static double estimate = 5e-3;
+	static double mean = 5e-3;
+	static double m2 = 0;
+	static int64_t count = 1;
+
+	while (seconds > estimate) {
+		auto start = high_resolution_clock::now();
+		this_thread::sleep_for(milliseconds(1));
+		auto end = high_resolution_clock::now();
+
+		double observed = (end - start).count() / 1e9;
+		seconds -= observed;
+
+		++count;
+		double delta = observed - mean;
+		mean += delta / count;
+		m2 += delta * (observed - mean);
+		double stddev = sqrt(m2 / (count - 1));
+		estimate = mean + stddev;
+	}
+
+	// spin lock
+	auto start = high_resolution_clock::now();
+	while ((high_resolution_clock::now() - start).count() / 1e9 < seconds);
+}
