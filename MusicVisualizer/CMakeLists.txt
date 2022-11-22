@@ -1,8 +1,4 @@
-﻿cmake_minimum_required (VERSION 3.8)
-
-message("${CMAKE_SOURCE_DIR}")
-
-
+﻿cmake_minimum_required (VERSION 3.1)
 
 find_package(OpenGL REQUIRED)
 add_subdirectory("vendor/glew")

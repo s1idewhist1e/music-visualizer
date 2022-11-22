@@ -3,8 +3,6 @@
 #include <sstream>
 #include <format>
 
-
-
 namespace mvlizer {
 
 	// Shaders
