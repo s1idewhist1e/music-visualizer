@@ -14,7 +14,7 @@ namespace mvlizer {
 	}
 
 	void VisualizerObject::onRender() {
-		
+
 	}
 
 	void VisualizerObject::onUpdate() {
@@ -24,7 +24,17 @@ namespace mvlizer {
 		vertices.push_back({ {-1.0f, -1.0f}, {1.0f, 1.0f, 1.0f} });
 
 		for (int i = 0; i < transformValues.size(); i++) {
-			vertices.push_back({ {(2 * (i / (float)(transformValues.size() - 1))) - 1.0f, 2 * (float)sqrt(transformValues[i].first * transformValues[i].first + transformValues[i].second * transformValues[i].second) - 1.0f}, {1.0f, rand() / (float)RAND_MAX, 1.0f}});
+			vertices.push_back({
+				{
+					(2 * (i / (float)(transformValues.size() - 1))) - 1.0f,
+					2 * (float)sqrt(transformValues[i].first * transformValues[i].first + transformValues[i].second * transformValues[i].second) - 1.0f // Absolute value of the complex result from the fourier transform
+				},
+				{
+					1.0f,
+					rand() / (float)RAND_MAX,
+					1.0f
+				}
+				});
 		}
 		vertices.push_back({ { 1.0f, -1.0f}, {1.0f, 1.0f, 1.0f} });
 
