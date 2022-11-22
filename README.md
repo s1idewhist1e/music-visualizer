@@ -1,8 +1,21 @@
 # music-visualizer
 
+## About
+
+This is a fairly simple cross-platform system for visualizing music using a [Fourier Transform](https://en.wikipedia.org/wiki/Fourier_transform). Mostly a fun little project for me to learn OpenGL and modern C++. Currently very early in development and very much a bowl of spaghetti code.
+
+### My plans include:
+
+ - [x] Build a renderer
+ - [x] Create transform data display
+ - [ ] Hook into audio streams
+ - [ ] ?
+
 ## Getting started
 
 ### Build the repository
+
+**If you are having trouble please try updating the submodules with `git submodule update`**
 
 Before you build make sure you have the following:
 - [CMake](https://cmake.org/) (v3.8 or newer)
