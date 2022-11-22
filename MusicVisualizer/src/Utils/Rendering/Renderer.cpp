@@ -14,7 +14,7 @@ namespace mvlizer {
 		"out vec3 _color;\n"
 		"void main()\n"
 		"{\n"
-		"_color = vec3((position.x / 2) + 1, (position.y / 2) + 1, 0.0);"
+		"_color = i_color;"
 		"gl_Position = vec4(position.x, position.y, 0.0, 1.0);\n"
 		"}\0";
 	const GLchar* fragmentShaderSource = "#version 330 core\n"
