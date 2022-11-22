@@ -8,7 +8,7 @@ This is a fairly simple cross-platform system for visualizing music using a [Fou
 
  - [x] Build a renderer
  - [x] Create transform data display
- - [ ] Hook into audio streams
+ - [ ] Hook into audio streams (currently only random noise)
  - [ ] ?
 
 ## Getting started
@@ -22,7 +22,7 @@ Before you build make sure you have the following:
 - A build system for C++ 20 like Visual Studio, Make, [Ninja](https://ninja-build.org/), etc.
 - Up-to-date graphics drivers for your system (preferred)
 
-To build
+**Building**
 1. Open a terminal and navigate to the repository directory
 1. Find the correct generator for you build system by running `cmake --help` and scrolling down to the list of generators. For this example we will be using `Ninja`.
     - If using Ninja you can run `cmake --list-presets` to find any available presets to run with `cmake --preset <preset>`. `<output_dir>` will be `out/build/<preset>`. 
