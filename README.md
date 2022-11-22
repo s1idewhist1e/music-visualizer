@@ -8,7 +8,7 @@ This is a fairly simple cross-platform system for visualizing music using a [Fou
 
  - [x] Build a renderer
  - [x] Create transform data display
- - [ ] Hook into audio streams
+ - [ ] Hook into audio streams (currently only random noise)
  - [ ] ?
 
 ## Getting started
