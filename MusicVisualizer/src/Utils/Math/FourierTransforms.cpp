@@ -5,7 +5,7 @@ namespace mvlizer {
 	{
 		const double pi = 3.14159265358979323846;
 		std::vector<std::pair<double, double>> values;
-		for (int i = 1; i < dataset.size(); i*=stride) {
+		for (int i = 1; i < dataset.size(); i+=stride) {
 			double sin = 0.;
 			double cos = 0.;
 			for (int j = 0; j < dataset.size(); ++j) {

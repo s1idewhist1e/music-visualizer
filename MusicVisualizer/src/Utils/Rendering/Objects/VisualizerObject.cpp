@@ -8,7 +8,7 @@ namespace mvlizer {
 		database(database),
 		audioValues()
 	{
-		for (int i = 0; i < 20000; i++) {
+		for (int i = 0; i < 1000; i++) {
 			audioValues.push_back((2 * rand() / (double)RAND_MAX) - 1.0);
 		}
 	}
@@ -18,7 +18,7 @@ namespace mvlizer {
 	}
 
 	void VisualizerObject::onUpdate() {
-		transformValues = FourierTransforms::discreteFourierTransform(audioValues, 2);
+		transformValues = FourierTransforms::discreteFourierTransform(audioValues, 10);
 		vertices.clear();
 		vertices.reserve(transformValues.size() + 2);
 		vertices.push_back({ {-1.0f, -1.0f}, {1.0f, 1.0f, 1.0f} });
@@ -30,7 +30,6 @@ namespace mvlizer {
 
 		elements.clear();
 		elements = PolygonMath::triangulate2DPolygon(vertices);
-		logger->debug("object updated!");
 		for (int i = 0; i < audioValues.size(); i++) {
 			audioValues[i] = (2 * rand() / (double)RAND_MAX) - 1.0;
 		}
