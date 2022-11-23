@@ -122,9 +122,15 @@ namespace mvlizer {
 				glewExperimental = GL_TRUE;
 				GLenum err = glewInit();
 				if (err != GLEW_OK) {
-					throw std::runtime_error((std::ostringstream() << "Error initializing GLEW: " << (char*)glewGetErrorString(err)).str().c_str());
+					std::ostringstream s;
+					s << "Error initializing GLEW: " << (char*)glewGetErrorString(err);
+					throw std::runtime_error(s.str().c_str());
 				}
-				m_logger->trace((std::ostringstream() << "GLEW version " << (char*)glewGetString(GLEW_VERSION) << " successfully initialized").str());
+
+				
+				std::ostringstream s;
+				s << "GLEW version " << (char*)glewGetString(GLEW_VERSION) << " successfully initialized";
+				m_logger->trace(s.str());
 
 				m_logger->trace("Registering GLFW key callback");
 				glfwSetKeyCallback(window, glfwKeyCallback);
@@ -175,7 +181,9 @@ namespace mvlizer {
 		if (!success)
 		{
 			glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-			m_logger->error((std::ostringstream() << "GL Vertex Shader Error: " << infoLog).str());
+			std::ostringstream s;
+			s << "GL Vertex Shader Error: " << infoLog;
+			m_logger->error(s.str());
 		}
 		else {
 			m_logger->trace("Vertex shader successfully compiled");
@@ -189,7 +197,9 @@ namespace mvlizer {
 		if (!success)
 		{
 			glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-			m_logger->error((std::ostringstream() << "GL Fragment Shader Error: " << infoLog).str());
+			std::ostringstream s;
+			s << "GL Fragment Shader Error: " << infoLog;
+			m_logger->error(s.str());
 		}
 		// Link shaders
 		GLuint shaderProgram = glCreateProgram();
@@ -200,7 +210,9 @@ namespace mvlizer {
 		glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
 		if (!success) {
 			glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-			m_logger->error((std::ostringstream() << "GL Shader Link Error: " << infoLog).str());
+			std::ostringstream s;
+			s << "GL Shader Link Error: " << infoLog;
+			m_logger->error(s.str());
 		}
 		glDeleteShader(vertexShader);
 		glDeleteShader(fragmentShader);
