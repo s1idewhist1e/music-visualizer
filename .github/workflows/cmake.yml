@@ -20,6 +20,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
+    - name: Update Submodules
+      run: git submodule update --init --recursive
+    
     - name: Install Required packages
       run: sudo apt install libglu1-mesa-dev xorg-dev
 
