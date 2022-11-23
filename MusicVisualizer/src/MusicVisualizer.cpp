@@ -49,7 +49,9 @@ void update_thread(mvlizer::Database& database, std::shared_ptr<spikeylog::ILogg
 
 	}
 	catch (std::runtime_error e) {
-		logger->fatal((std::ostringstream() << "[UPDATE] " << e.what()).str());
+		std::ostringstream s;
+		s << "[UPDATE] " << e.what();
+		logger->fatal(s.str());
 	}
 
 }
@@ -63,7 +65,9 @@ void rendering_thread(mvlizer::Database& database, std::shared_ptr<spikeylog::IL
 		renderer.start();
 	}
 	catch (std::runtime_error e) {
-		logger->fatal((std::ostringstream() << "[RENDERING] " << e.what()).str());
+		std::ostringstream s;
+		s << "[RENDERING] " << e.what();
+		logger->fatal(s.str());
 	}
 
 }
