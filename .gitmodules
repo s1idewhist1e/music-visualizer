@@ -1,0 +1,9 @@
+[submodule "lib/glfw3"]
+	path = lib/glfw3
+	url = https://github.com/glfw/glfw
+[submodule "lib/spikeylog"]
+	path = lib/spikeylog
+	url = https://github.com/s1idewhist1e/spikeylog
+[submodule "lib/portaudio"]
+	path = lib/portaudio
+	url = https://github.com/PortAudio/portaudio.git
