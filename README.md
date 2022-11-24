@@ -1,5 +1,8 @@
 # music-visualizer
 
+[![license](https://img.shields.io/github/license/s1idewhist1e/music-visualizer)](https://github.com/s1idewhist1e/music-visualizer/blob/main/LICENSE.txt)
+[![Build (CMake)](https://github.com/s1idewhist1e/music-visualizer/actions/workflows/build.yml/badge.svg)](https://github.com/s1idewhist1e/music-visualizer/actions/workflows/build.yml)
+
 ## About
 
 This is a fairly simple cross-platform system for visualizing music using a [Fourier Transform](https://en.wikipedia.org/wiki/Fourier_transform). Mostly a fun little project for me to learn OpenGL and modern C++. Currently very early in development and very much a bowl of spaghetti code.

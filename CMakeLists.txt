@@ -5,9 +5,10 @@ cmake_minimum_required (VERSION 3.8)
 
 project (MusicVisualizer VERSION 0.1)
 
+set (CMAKE_CXX_STANDARD 20)
 
+include_directories("src")
 
-# Include sub-projects.
-add_subdirectory ("MusicVisualizer")
-add_subdirectory ("MusicVisualizerTests")
-
+add_subdirectory("lib")
+add_subdirectory("src")
+add_subdirectory("tests")

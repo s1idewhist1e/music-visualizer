@@ -1,9 +1,9 @@
-[submodule "MusicVisualizer/vendor/glfw3"]
-	path = MusicVisualizer/vendor/glfw3
-	url = https://github.com/glfw/glfw
-[submodule "MusicVisualizer/vendor/spikeylog"]
-	path = MusicVisualizer/vendor/spikeylog
-	url = https://github.com/s1idewhist1e/spikeylog
-[submodule "MusicVisualizer/vendor/portaudio"]
-	path = MusicVisualizer/vendor/portaudio
+[submodule "lib/glfw3"]
+	path = lib/glfw3
+	url = https://github.com/glfw/glfw.git
+[submodule "lib/spikeylog"]
+	path = lib/spikeylog
+	url = https://github.com/s1idewhist1e/spikeylog.git
+[submodule "lib/portaudio"]
+	path = lib/portaudio
 	url = https://github.com/PortAudio/portaudio.git
