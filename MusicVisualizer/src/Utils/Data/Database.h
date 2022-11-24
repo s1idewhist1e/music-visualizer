@@ -18,6 +18,7 @@ namespace mvlizer {
 		void setRenderTime(double time);
 		double getRenderTime();
 		std::atomic_bool should_close;
+		~Database();
 	private:
 		double updateTime;
 		std::shared_mutex update_mut;

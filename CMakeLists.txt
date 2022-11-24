@@ -9,4 +9,5 @@ project (MusicVisualizer VERSION 0.1)
 
 # Include sub-projects.
 add_subdirectory ("MusicVisualizer")
+add_subdirectory ("MusicVisualizerTests")
 

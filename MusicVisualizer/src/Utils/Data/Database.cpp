@@ -33,4 +33,10 @@ namespace mvlizer {
 		return val;
 	}
 
+	Database::~Database() {
+		for (auto ptr : renderObjects) {
+			delete ptr;
+		}
+	}
+
 }
