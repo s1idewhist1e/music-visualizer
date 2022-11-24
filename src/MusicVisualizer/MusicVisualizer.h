@@ -11,6 +11,11 @@
 #include <mutex>
 #include <thread>
 #include <sstream>
+namespace mvlizer {
+	namespace app {
+		int Start(int argc, char* argv[]);
+	}
+}
 
 void update_thread(mvlizer::Database& database, std::shared_ptr<spikeylog::ILogger> logger);
 

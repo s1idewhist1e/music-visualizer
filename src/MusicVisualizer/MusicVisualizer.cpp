@@ -6,7 +6,7 @@
 #include "Utils/Rendering/Objects/VisualizerObject.h"
 #include <GLFW/glfw3.h>
 
-int main()
+int mvlizer::app::Start(int argc, char* argv[])
 {
 	mvlizer::Database data;
 
