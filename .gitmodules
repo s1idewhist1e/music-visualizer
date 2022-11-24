@@ -7,3 +7,6 @@
 [submodule "lib/portaudio"]
 	path = lib/portaudio
 	url = https://github.com/PortAudio/portaudio.git
+[submodule "lib/googletest"]
+	path = lib/googletest
+	url = https://github.com/google/googletest.git
