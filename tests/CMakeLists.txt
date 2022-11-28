@@ -1,4 +1,4 @@
-set (CMAKE_CXX_STANDARD 14)
+set (CMAKE_CXX_STANdARD 17)
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
@@ -16,6 +16,7 @@ target_link_libraries(
 	MusicVisualizerTests
 	MusicVisualizer_lib
 	GTest::gtest_main
+	GTest::gmock
 )
 
 include(GoogleTest)
