@@ -27,7 +27,7 @@ Before you build make sure you have the following:
 
 **Building**
 1. Open a terminal and navigate to the repository directory
-1. Find the correct generator for you build system by running `cmake --help` and scrolling down to the list of generators. For this example we will be using `Ninja`.
+1. Find the correct generator for you build system by running `cmake --help` and scrolling down to the list of generators.
     - If using Ninja you can run `cmake --list-presets` to find any available presets to run with `cmake --preset <preset>`. `<output_dir>` will be `out/build/<preset>`. 
 1. Otherwise run `cmake -B <output_dir> -G <generator>`
     - if specifying an output dir make sure it exists by running `mkdir <output_dir>` first
