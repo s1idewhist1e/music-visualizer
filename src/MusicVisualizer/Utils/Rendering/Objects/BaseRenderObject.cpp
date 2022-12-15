@@ -1,7 +1,7 @@
 #include "BaseRenderObject.h"
 
 namespace mvlizer {
-	void BaseRenderObject::update()
+	void BaseRenderObject::tick()
 	{
 		std::unique_lock<std::shared_timed_mutex> write_lock(mut);
 		onUpdate();

@@ -14,6 +14,8 @@ target_link_libraries (MusicVisualizer_lib
 	${GLEW_LIBRARIES}
 )
 
+target_include_directories (MusicVisualizer_lib PUBLIC "./MusicVisualizer")
+
 add_executable (MusicVisualizer "Application.cpp")
 
 target_link_libraries (MusicVisualizer MusicVisualizer_lib)

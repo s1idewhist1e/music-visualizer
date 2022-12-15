@@ -8,7 +8,8 @@ namespace mvlizer {
 	namespace tests {
 		class MockLogger : public spikeylog::ILogger {
 		public:
-			//MOCK_METHOD(void, log, (std::string const& str, spikeylog::LogLevel level), (override));
+			//MOCK_METHOD(void, log, (std::string const& str_, spikeylog::LogLevel level), (override));
+			//operator ILogger () { return this; }
 			
 			void log(std::string const& str, spikeylog::LogLevel level) {
 				if (level > spikeylog::LogLevel::INFO) {

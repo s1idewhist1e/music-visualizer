@@ -4,15 +4,15 @@
 
 #define GLEW_STATIC
 
-#include <list>
 #include <GL/glew.h>
+#include <list>
 #include <GLFW/glfw3.h>
 #include <memory>
-#include "Objects/IRenderObject.h"
-#include "Objects/Vertex.h"
+#include <portaudio.h>
 #include <spikeylog.h>
 #include <unordered_map>
-#include <portaudio.h>
+#include "Objects/IRenderObject.h"
+#include "Objects/Vertex.h"
 #include "Utils/Data/Database.h"
 
 namespace mvlizer {
@@ -34,17 +34,17 @@ namespace mvlizer {
 	class Renderer{
 	public:
 		static keyCallback registerKeyCallback(KeyInputInfo keyInfo, keyCallback callback);
-		void createWindow();
+		virtual void createWindow();
 		void destroyWindow();
 		void start();
-		Renderer(std::shared_ptr<spikeylog::ILogger> logger, Database& database);
-		~Renderer();
-	private:
+		Renderer(const std::shared_ptr<spikeylog::ILogger> &logger, Database &win);
+		virtual ~Renderer();
+	protected:
 		static std::unordered_map<uint16_t, keyCallback> keycallbacks;
 		static void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 		static void glfwWindowResizeCallback(GLFWwindow* window, int width, int height);
-		GLFWwindow* window = nullptr;
 		static std::shared_ptr<spikeylog::ILogger> m_logger;
+		GLFWwindow* window = nullptr;
 		Database& data;
 		static void glfwErrorCallback(int error, const char* description);
 		double frametime;
@@ -53,7 +53,7 @@ namespace mvlizer {
 		GLint* compElemArray(int& length);
 
 	protected:
-		static bool _isGLFWinit;
+		static bool _isGLFWInit;
 	};
 
 

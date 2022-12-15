@@ -24,32 +24,32 @@ namespace mvlizer {
 
 	std::shared_ptr<spikeylog::ILogger> Renderer::m_logger = nullptr;
 	std::unordered_map<uint16_t, keyCallback> Renderer::keycallbacks = std::unordered_map<uint16_t, keyCallback>();
-	bool Renderer::_isGLFWinit = false;
+	bool Renderer::_isGLFWInit = false;
 
-	Renderer::Renderer(std::shared_ptr<spikeylog::ILogger> logger, Database& _data)
-		: data(_data)
+	Renderer::Renderer(const std::shared_ptr<spikeylog::ILogger> &logger, Database &database)
+		: data(database)
 	{
 
 		m_logger = logger;
 
-		if (!_isGLFWinit) {
+		if (!_isGLFWInit) {
 			m_logger->info("Initializing GLFW...");
 			if (!glfwInit())
 				throw std::runtime_error("GLFW Failed to init");
 			else {
-				_isGLFWinit = true;
+                _isGLFWInit = true;
 				m_logger->info("Successfully initialized GLFW");
 
 				// setting error callback
 				m_logger->trace("Registering GLFW error callback");
 				glfwSetErrorCallback(glfwErrorCallback);
 
-				registerKeyCallback({ GLFW_KEY_ESCAPE, GLFW_PRESS }, [](KeyInputInfo _, GLFWwindow* window) {
-					glfwSetWindowShouldClose(window, GL_TRUE);
+				registerKeyCallback({ GLFW_KEY_ESCAPE, GLFW_PRESS }, [](KeyInputInfo _, GLFWwindow* win) {
+					glfwSetWindowShouldClose(win, GL_TRUE);
 					});
 
-				registerKeyCallback({ GLFW_KEY_SPACE, GLFW_PRESS }, [](KeyInputInfo _, GLFWwindow* window) {
-					glfwMakeContextCurrent(window);
+				registerKeyCallback({ GLFW_KEY_SPACE, GLFW_PRESS }, [](KeyInputInfo _, GLFWwindow* win) {
+					glfwMakeContextCurrent(win);
 					GLint mode[2];
 					glGetIntegerv(GL_POLYGON_MODE, mode);
 					glPolygonMode(GL_FRONT_AND_BACK, mode[1] == GL_FILL ? GL_LINE : GL_FILL);
@@ -64,10 +64,10 @@ namespace mvlizer {
 
 	Renderer::~Renderer() {
 		destroyWindow();
-		if (_isGLFWinit) {
+		if (_isGLFWInit) {
 			m_logger->info("Terminating GLFW");
 			glfwTerminate();
-			_isGLFWinit = false;
+            _isGLFWInit = false;
 		}
 	}
 
@@ -76,7 +76,7 @@ namespace mvlizer {
 		KeyInputInfo info{ (uint16_t)key, (uint16_t)action };
 
 		if (action == GLFW_PRESS) {
-			// m_logger->trace((std::ostringstream() << "Key pressed: " << info.asStruct.key).str());
+			// m_logger->trace((std::ostringstream() << "Key pressed: " << info.asStruct.key).str_());
 		}
 		auto callback = keycallbacks[info.asShort];
 
@@ -110,7 +110,7 @@ namespace mvlizer {
 			glfwGetMonitorWorkarea(monitor, &x, &y, &w, &h);
 
 
-			window = glfwCreateWindow(800, 600, "Window Name", NULL, NULL);
+			window = glfwCreateWindow(800, 600, "Window Name", nullptr, nullptr);
 			if (!window) {
 				throw std::runtime_error("Could not create window!");
 			}

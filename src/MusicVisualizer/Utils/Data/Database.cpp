@@ -1,10 +1,16 @@
 #include "Database.h"
+#include "Database.h"
 
 namespace mvlizer {
 	Database::Database()
 		: renderObjects(),
 		should_close(false)
 	{
+		//logger->trace("dfdfdf");
+	}
+
+	void Database::Init(std::shared_ptr<spikeylog::ILogger> logger) {
+		this->logger = logger;
 	}
 
 	void Database::setUpdateTime(double time) {
@@ -31,6 +37,13 @@ namespace mvlizer {
 		double val = renderTime;
 		render_mut.unlock_shared();
 		return val;
+	}
+
+	void Database::update()
+	{
+		for (auto variable : renderObjects) {
+			variable->tick();
+		}
 	}
 
 	Database::~Database() {

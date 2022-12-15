@@ -36,3 +36,6 @@
 
 # visual studio settings
 /.vs/
+
+# CLion settings
+/.idea/

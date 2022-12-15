@@ -15,7 +15,7 @@ namespace mvlizer {
 			MOCK_METHOD(unsigned int, getVertexLength, (), (override));
 			MOCK_METHOD(unsigned int, getElementLength, (), (override));
 			MOCK_METHOD(void, render, (), (override));
-			MOCK_METHOD(void, update, (), (override));			
+			MOCK_METHOD(void, tick, (), (override));			
 		};
 	}
 }

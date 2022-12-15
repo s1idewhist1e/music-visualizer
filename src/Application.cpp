@@ -2,10 +2,11 @@
 
 int main(int argc, char* argv[]) {
 	try {
-		return mvlizer::app::Start(argc, argv);
+		auto instance = mvlizer::app::MusicVisualizer::getInstance(argc, argv);
+		return instance->run();
 	}
-	catch (std::runtime_error err) {
+	catch (const std::runtime_error& err) {
 		std::cout << err.what() << std::endl;
-		return -1;
+		return 1;
 	}
 }

@@ -13,8 +13,9 @@ namespace mvlizer {
 		virtual unsigned int getVertexLength() = 0;
 		virtual unsigned int getElementLength() = 0;
 		virtual void render() = 0;
-		virtual void update() = 0;
+		virtual void tick() = 0;
 		bool isUpdated = true;
+		virtual ~IRenderObject() {};
 		
 	};
 }

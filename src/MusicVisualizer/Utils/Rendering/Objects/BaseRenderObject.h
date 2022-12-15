@@ -21,7 +21,7 @@ namespace mvlizer {
 		unsigned int getVertexLength() { return vertices.size(); }
 		unsigned int getElementLength() { return elements.size(); }
 
-		void update();
+		void tick();
 		void render();
 
 	private:
