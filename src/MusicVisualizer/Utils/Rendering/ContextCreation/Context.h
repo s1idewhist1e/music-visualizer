@@ -4,7 +4,9 @@
 
 namespace mvlizer {
 	class Context {
-		
+    public:
+        void glfwKeyCallback(int key, int scancode, int action, int mods);
+        GLFWwindow* window;
 	};
 }
 

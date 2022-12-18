@@ -34,10 +34,11 @@ namespace mvlizer {
 		static void Init(const std::shared_ptr<spikeylog::ILogger>&);
 		static Context* createContext(const ContextCreationArgs&);
 		static std::thread::id init_thread_id;
-		static bool is_init;
+		static std::atomic_bool is_init;
 		static std::shared_ptr<spikeylog::ILogger> logger;
 		static void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 		static void glfwErrorCallback(int error, const char* description);
+        static std::map<GLFWwindow*, Context*>::iterator getContextIterator();
 	private:
 		static std::map<GLFWwindow*, Context*> contexts;
 	};

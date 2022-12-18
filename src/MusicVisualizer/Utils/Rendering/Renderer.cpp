@@ -172,7 +172,7 @@ namespace mvlizer {
    // Vertex shader
 		m_logger->trace("Compiling vertex shader...");
 		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+		glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
 		glCompileShader(vertexShader);
 		// Check for compile time errors
 		GLint success;
@@ -180,7 +180,7 @@ namespace mvlizer {
 		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
 		if (!success)
 		{
-			glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+            glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
 			std::ostringstream s;
 			s << "GL Vertex Shader Error: " << infoLog;
 			m_logger->error(s.str());
@@ -190,13 +190,13 @@ namespace mvlizer {
 		}
 		// Fragment shader
 		GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+		glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
 		glCompileShader(fragmentShader);
 		// Check for compile time errors
 		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
 		if (!success)
 		{
-			glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+			glGetShaderInfoLog(fragmentShader, 512, nullptr, infoLog);
 			std::ostringstream s;
 			s << "GL Fragment Shader Error: " << infoLog;
 			m_logger->error(s.str());
@@ -209,7 +209,7 @@ namespace mvlizer {
 		// Check for linking errors
 		glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
 		if (!success) {
-			glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+			glGetProgramInfoLog(shaderProgram, 512, nullptr, infoLog);
 			std::ostringstream s;
 			s << "GL Shader Link Error: " << infoLog;
 			m_logger->error(s.str());
