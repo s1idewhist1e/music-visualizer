@@ -1,8 +1,10 @@
-﻿find_package(OpenGL REQUIRED)
+﻿set(OpenGL_GL_PREFERENCE GLVND)
+find_package(OpenGL REQUIRED)
 
 include_directories (${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS} "MusicVisualizer")
 
 file (GLOB_RECURSE MV_LIB_SOURCES CONFIGURE_DEPENDS "MusicVisualizer/**.cpp")
+
 
 add_library(MusicVisualizer_lib ${MV_LIB_SOURCES})
 target_link_libraries (MusicVisualizer_lib
