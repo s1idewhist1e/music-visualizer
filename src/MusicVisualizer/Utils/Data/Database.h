@@ -14,7 +14,7 @@ namespace mvlizer {
 	public:
 		Database();
 
-		void Init(std::shared_ptr<spikeylog::ILogger> logger);
+		void Init(std::shared_ptr<spikeylog::ILogger>& logger);
 
 		std::shared_ptr<spikeylog::ILogger> logger;
 
@@ -30,9 +30,9 @@ namespace mvlizer {
 
 		virtual ~Database();
 	private:
-		double updateTime;
+		double updateTime = 0;
 		std::shared_mutex update_mut;
-		double renderTime;
+		double renderTime = 0;
 		std::shared_mutex render_mut;
 	};
 

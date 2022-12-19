@@ -16,7 +16,5 @@ namespace mvlizer {
 				logger = std::unique_ptr<spikeylog::ILogger>(new MockLogger());
 			}
 		};
-
-
-	}
+    }
 }

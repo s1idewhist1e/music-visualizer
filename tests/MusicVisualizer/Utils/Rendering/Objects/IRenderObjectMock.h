@@ -8,8 +8,7 @@ namespace mvlizer {
 	namespace tests {
 		class MockIRenderObject : public mvlizer::IRenderObject {
 		public:
-			MockIRenderObject();
-			MockIRenderObject(mvlizer::IRenderObject prev);
+			MockIRenderObject() = default;
 			MOCK_METHOD(Vertex*, getVertexArray, (), (override));
 			MOCK_METHOD(GLint*, getElementArray, (), (override));
 			MOCK_METHOD(unsigned int, getVertexLength, (), (override));

@@ -15,14 +15,14 @@ namespace mvlizer {
 		// locks shared mutex, should not write any data
 		virtual void onRender() = 0;
 
-		virtual Vertex* getVertexArray();
-		virtual GLint* getElementArray();
+		Vertex* getVertexArray() override;
+		GLint* getElementArray() override;
 
-		unsigned int getVertexLength() { return vertices.size(); }
-		unsigned int getElementLength() { return elements.size(); }
+		unsigned int getVertexLength() override { return vertices.size(); }
+		unsigned int getElementLength() override { return elements.size(); }
 
-		void tick();
-		void render();
+		void tick() override;
+		void render() override;
 
 	private:
 		std::shared_timed_mutex mut;
