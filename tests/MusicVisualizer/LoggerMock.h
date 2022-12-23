@@ -13,11 +13,11 @@ namespace mvlizer {
 			
 			void log(std::string const& str, spikeylog::LogLevel level) {
 				if (level > spikeylog::LogLevel::INFO) {
-					err();
+					err(str);
 				}
 			}
 
-			MOCK_METHOD(void, err, ());
+			MOCK_METHOD(void, err, (std::string str));
 
 			MOCK_METHOD(void, enableLogLevel, (spikeylog::LogLevel level, int outId), (override));
 			MOCK_METHOD(void, disableLogLevel, (spikeylog::LogLevel level, int outId), (override));
