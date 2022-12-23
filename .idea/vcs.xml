@@ -2,8 +2,6 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/lib/glfw3" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/lib/portaudio" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/lib/spikeylog" vcs="Git" />
   </component>
 </project>
