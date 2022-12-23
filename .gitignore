@@ -35,7 +35,7 @@
 /build/
 
 # visual studio settings
-/.vs/
+#/.vs/
 
 # CLion settings
-/.idea/
+#/.idea/
