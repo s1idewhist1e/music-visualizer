@@ -10,6 +10,9 @@
 #include <memory>
 #include <stdexcept>
 #include <spikeylog.h>
+#include <sstream>
+#include <list>
+#include <functional>
 
 #define str_(a) #a
 #define xstr_(a) str_(a)
@@ -25,22 +28,46 @@
 
 namespace mvlizer {
 
-	struct ContextCreationArgs {
-		
-	};
+    struct contextHint {
+        int Key;
+        int Value;
+    };
 
-	class GLFWHandler {
+    struct contextCreationArgs {
+        int width, height;
+        bool fullscreen = false;
+        std::string title;
+        std::list<contextHint> hints;
+    };
+
+    class GLFWHandler {
 	public:
+        // Initializes GLFW
 		static void Init(const std::shared_ptr<spikeylog::ILogger>&);
-		static Context* createContext(const ContextCreationArgs&);
-		static std::thread::id init_thread_id;
-		static std::atomic_bool is_init;
-		static std::shared_ptr<spikeylog::ILogger> logger;
-		static void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-		static void glfwErrorCallback(int error, const char* description);
-        static std::map<GLFWwindow*, Context*>::iterator getContextIterator();
-	private:
-		static std::map<GLFWwindow*, Context*> contexts;
+
+        // Terminates GLFW
+        static void Terminate();
+
+        // Creates a GLFWwindow and binds it to a context to be used for rendering
+		static Context* createContext(const contextCreationArgs &args);
+
+        // Destroys the context and closes the GLFWwindow associated with it
+        static void destroyContext(Context*& ctx);
+
+        // The callback for GLFW to use on keypress
+        static void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+
+        // The callback for GLFW to use when there's an error
+        static void glfwErrorCallback(int error, const char* description);
+
+        // Loop through each context and do something
+        static void forEachContext(std::function<void(Context*&, const GLFWwindow*)>);
+
+    private:
+        static std::shared_ptr<spikeylog::ILogger> logger;
+        static std::atomic_bool is_init;
+        static std::thread::id init_thread_id;
+        static std::map<GLFWwindow*, Context*> contexts;
 	};
 
 
