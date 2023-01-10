@@ -16,14 +16,24 @@ This is a fairly simple cross-platform system for visualizing music using a [Fou
 
 ## Getting started
 
+### Runtime Dependencies
+| Dependency |   type   |       Linux (fedora)       |                Windows                 |
+|:----------:|:--------:|:--------------------------:|:--------------------------------------:|
+|    glew    | required | `sudo dnf install libGLEW` | [here](https://glew.sourceforge.net/)  |
+|            |          |                            |                                        |
+
+### Build Dependencies
+|           Dependency            |                  type                  |        Linux (fedora)         |                 Windows                  |
+|:-------------------------------:|:--------------------------------------:|:-----------------------------:|:----------------------------------------:|
+|              cmake              |                required                |   `sudo dnf install cmake`    |                 [here]()                 |
+| system GL development libraries |                required                |            varies             |                    -                     |
+|    glew headers and binaries    |                required                | `sudo dnf install glew-devel` |  [here](https://glew.sourceforge.net/)   |
+|             doxygen             | for documentation (libmusicvisualizer) |  `sudo dnf install doxygen`   | [here](https://doxygen.nl/download.html) |
+|       C++20 build system        |   required if you value your sanity    |               -               |                    -                     |
+
 ### Build the repository
 
 **If you are having trouble please try updating the submodules with `git submodule update`**
-
-Before you build make sure you have the following:
-- [CMake](https://cmake.org/) (v3.8 or newer)
-- A build system for C++ 20 like Visual Studio, Make, [Ninja](https://ninja-build.org/), etc.
-- Up-to-date graphics drivers for your system (preferred)
 
 **Building**
 1. Open a terminal and navigate to the repository directory
