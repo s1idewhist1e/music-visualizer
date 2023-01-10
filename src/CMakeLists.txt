@@ -1,8 +1,9 @@
-﻿#set(OpenGL_GL_PREFERENCE GLVND)
+﻿set(OpenGL_GL_PREFERENCE GLVND)
 
+find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 
-include_directories (${GLEW_INCLUDE_DIRS} "MusicVisualizer")
+include_directories (${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS} "MusicVisualizer")
 
 file (GLOB_RECURSE MV_LIB_SOURCES CONFIGURE_DEPENDS "MusicVisualizer/**.cpp")
 
@@ -12,6 +13,7 @@ target_link_libraries (MusicVisualizer_lib
 	glfw
 	spikeylog 
 	PortAudio
+		${OPENGL_LIBRARIES}
 	${GLEW_LIBRARIES}
 )
 
