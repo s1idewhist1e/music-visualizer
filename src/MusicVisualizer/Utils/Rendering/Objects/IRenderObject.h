@@ -5,7 +5,7 @@
 #include <spikeylog.h>
 #include "Vertex.h"
 
-namespace mvlizer {
+namespace mvlizer::rendering {
 	class IRenderObject {
 	public: 
 		virtual Vertex* getVertexArray() = 0;

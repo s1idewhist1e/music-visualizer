@@ -82,7 +82,8 @@
         "displayName": "Linux Release",
         "inherits": "linux-debug",
         "cacheVariables": {
-          "CMAKE_BUILD_TYPE": "Release"
+          "CMAKE_BUILD_TYPE": "Release",
+          "GENERATE_DOCS": "ALL"
         }
       },
         {

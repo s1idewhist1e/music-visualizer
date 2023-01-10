@@ -4,11 +4,12 @@
 
 #include <GLFW/glfw3.h>
 
-namespace mvlizer {
+namespace mvlizer::rendering {
 	class Context {
     public:
         explicit Context(GLFWwindow*);
         void glfwKeyCallback(int key, int scancode, int action, int mods);
+
         GLFWwindow* window;
 	};
 }

@@ -2,16 +2,16 @@
 
 #include <utility>
 
-namespace mvlizer {
+namespace mvlizer::rendering {
 
-	std::thread::id GLFWHandler::init_thread_id;
+//	std::thread::id GLFWHandler::init_thread_id;
 	std::shared_ptr<spikeylog::ILogger> GLFWHandler::logger;
-	std::atomic_bool GLFWHandler::is_init = false;
+//	std::atomic_bool GLFWHandler::is_init = false;
 	std::map<GLFWwindow*, Context*> GLFWHandler::contexts;
 
 
-	void GLFWHandler::Init(const std::shared_ptr<spikeylog::ILogger>& _logger) {
-		GLFWHandler::logger = _logger;
+	GLFWHandler::GLFWHandler(std::shared_ptr<spikeylog::ILogger> _logger) {
+        GLFWHandler::logger = _logger;
 		logger->trace("Initializing GLFW");
 		if (is_init) {
 			logger->warn("GLFW is already initialized. Cannot reinitialize. Continuing...");
@@ -83,5 +83,9 @@ namespace mvlizer {
 
     void GLFWHandler::forEachContext(std::function<void(Context*&, const GLFWwindow*)> predicate) {
 
+    }
+
+    GLFWHandler* GLFWHandler::GetInstance(std::shared_ptr<spikeylog::ILogger>) {
+        if ()
     }
 }

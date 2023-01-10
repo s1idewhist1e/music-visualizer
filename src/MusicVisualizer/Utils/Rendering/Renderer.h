@@ -15,7 +15,8 @@
 #include "Objects/Vertex.h"
 #include "Utils/Data/Database.h"
 
-namespace mvlizer {
+/// \brief Classes surrounding rendering objects
+namespace mvlizer::rendering {
 	union KeyInputInfo
 	{
 		struct {

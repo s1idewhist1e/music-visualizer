@@ -13,6 +13,8 @@
 #include <sstream>
 #include <list>
 #include <functional>
+#include <shared_mutex>
+#include <unordered_set>
 
 #define str_(a) #a
 #define xstr_(a) str_(a)
@@ -26,7 +28,7 @@
 			throw std::runtime_error("Cannot call GLFW functions at " __FILE__ ":" xstr_(__LINE__) " from threads other then the primary rendering thread."); \
 		} \
 
-namespace mvlizer {
+namespace mvlizer::rendering {
 
     struct contextHint {
         int Key;
@@ -34,7 +36,7 @@ namespace mvlizer {
     };
 
     struct contextCreationArgs {
-        int width, height;
+        int width = 600, height = 400;
         bool fullscreen = false;
         std::string title;
         std::list<contextHint> hints;
@@ -42,33 +44,26 @@ namespace mvlizer {
 
     class GLFWHandler {
 	public:
-        // Initializes GLFW
-		static void Init(const std::shared_ptr<spikeylog::ILogger>&);
+        static GLFWHandler* GetInstance(std::shared_ptr<spikeylog::ILogger>);
 
-        // Terminates GLFW
-        static void Terminate();
+        std::atomic<std::shared_ptr<Context>> CreateWindow(const contextCreationArgs&);
+        void DestroyWindow();
 
-        // Creates a GLFWwindow and binds it to a context to be used for rendering
-		static Context* createContext(const contextCreationArgs &args);
-
-        // Destroys the context and closes the GLFWwindow associated with it
-        static void destroyContext(Context*& ctx);
-
-        // The callback for GLFW to use on keypress
-        static void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-
-        // The callback for GLFW to use when there's an error
-        static void glfwErrorCallback(int error, const char* description);
-
-        // Loop through each context and do something
-        static void forEachContext(std::function<void(Context*&, const GLFWwindow*)>);
+        std::atomic<std::shared_ptr<Context>> Window;
 
     private:
+        static void glfwErrorCallback(int error_code, const char* description);
+        static void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+
+        static std::mutex instance_mtx;
+        static GLFWHandler* instance;
+        explicit GLFWHandler(std::shared_ptr<spikeylog::ILogger>);
+
         static std::shared_ptr<spikeylog::ILogger> logger;
-        static std::atomic_bool is_init;
-        static std::thread::id init_thread_id;
-        static std::map<GLFWwindow*, Context*> contexts;
-	};
+
+        std::thread::id init_thread_id;
+        std::atomic_bool is_init = false;
+    };
 
 
 }

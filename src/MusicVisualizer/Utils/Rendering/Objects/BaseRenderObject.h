@@ -7,7 +7,7 @@
 #include <mutex>
 #include <vector>
 
-namespace mvlizer {
+namespace mvlizer::rendering {
 	class BaseRenderObject : public IRenderObject {
 	public:
 		// locks render thread for update

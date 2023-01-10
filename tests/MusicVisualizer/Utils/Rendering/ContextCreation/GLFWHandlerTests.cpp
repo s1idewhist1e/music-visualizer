@@ -22,7 +22,7 @@ namespace mvlizer {
 
             void SetUp() override {
                 logger = std::make_shared<NiceMock<MockLogger>>();
-                std::shared_ptr<spikeylog::ILogger> logger_temp = logger;
+//                std::shared_ptr<spikeylog::ILogger> logger_temp = logger;
             }
 
             void TearDown() override {
@@ -49,90 +49,64 @@ namespace mvlizer {
         TEST_F(GLFWHandlerTest, initializes) {
             EXPECT_CALL(*logger, err)
                     .Times(0);
-            mvlizer::GLFWHandler::Init(logger);
+            mvlizer::GLFWHandler::GetInstance(logger);
             glfwGetKeyScancode(GLFW_KEY_0);
             EXPECT_NE(glfwGetError(nullptr), GLFW_NOT_INITIALIZED);
-            mvlizer::GLFWHandler::Terminate();
-        }
-
-        TEST_F(GLFWHandlerTest, cannotInitializeTwice) {
-            EXPECT_CALL(*logger, err)
-                    .Times(testing::AtLeast(1));
-            mvlizer::GLFWHandler::Init(logger);
-            mvlizer::GLFWHandler::Init(logger);
-            glfwGetKeyScancode(GLFW_KEY_0);
-            EXPECT_NE(glfwGetError(nullptr), GLFW_NOT_INITIALIZED);
-            GLFWHandler::Terminate();
-        }
-
-        TEST_F(GLFWHandlerTest, terminates) {
-
-            EXPECT_CALL(*logger, err)
-                .Times(0);
-            GLFWHandler::Init(logger);
-            GLFWHandler::Terminate();
-            glfwGetKeyScancode(GLFW_KEY_0);
-            ASSERT_EQ(glfwGetError(nullptr), GLFW_NOT_INITIALIZED);
-            GLFWHandler::Init(logger);
-            GLFWHandler::Terminate();
+//            mvlizer::GLFWHandler::Terminate();
         }
 
         TEST_P(GLFWHandlerTest, createsWindow) {
             EXPECT_CALL(*logger, err)
                     .Times(0);
-            GLFWHandler::Init(logger);
+            auto handler = mvlizer::GLFWHandler::GetInstance(logger);
             auto args = GetParam();
-            auto ctx = GLFWHandler::createContext(args);
-            ASSERT_TRUE(ctx != nullptr);
-            ASSERT_TRUE(ctx->window != nullptr);
+            auto ctx = handler->CreateWindow(args);
+//            ASSERT_TRUE(ctx != nullptr);
+            ASSERT_TRUE(ctx.load()->window != nullptr);
 
-            glfwMakeContextCurrent(ctx->window);
+            glfwMakeContextCurrent(ctx.load()->window);
             GLFWwindow* window = glfwGetCurrentContext();
-            EXPECT_EQ(window, ctx->window);
+            EXPECT_EQ(window, ctx.load()->window);
 
             int width, height;
-            glfwGetWindowSize(ctx->window, &width, &height);
 
-            EXPECT_EQ(width, args.width);
-            EXPECT_EQ(height, args.height);
-            GLFWHandler::Terminate();
+            glfwGetMonitorWorkarea(glfwGetPrimaryMonitor(), nullptr, nullptr, &width, &height);
+
+            int w, h;
+
+            if(args.width > width) {
+                w = width;
+            } else {
+                w = args.width;
+            }
+
+            if(args.height > height) {
+                h = height;
+            } else {
+                h = args.height;
+            }
+
+            glfwGetWindowSize(ctx.load()->window, &width, &height);
+
+
+            EXPECT_EQ(width, w);
+            EXPECT_EQ(height, h);
         }
 
         TEST_P(GLFWHandlerTest, canDestroyContext) {
             EXPECT_CALL(*logger, err)
                 .Times(0);
-            GLFWHandler::Init(logger);
-            auto ctx = GLFWHandler::createContext(GetParam());
-            GLFWHandler::destroyContext(ctx);
-            EXPECT_TRUE(ctx == nullptr);
+            auto handler = GLFWHandler::GetInstance(logger);
+            auto ctx = handler->CreateWindow(GetParam());
 
-            GLFWHandler::forEachContext([&ctx](Context*& context, const GLFWwindow* window) {
-                EXPECT_TRUE(context != nullptr);
-            });
-            GLFWHandler::Terminate();
+            auto callback = glfwSetErrorCallback(nullptr);
+
+            glfwGetKeyScancode(GLFW_KEY_0);
+            EXPECT_EQ(glfwGetError(nullptr), GLFW_NOT_INITIALIZED);
+
+            glfwSetErrorCallback(callback);
+
         }
-
-        TEST_P(GLFWHandlerTest, canLoopThroughContexts) {
-            EXPECT_CALL(*logger, err)
-                .Times(0);
-            GLFWHandler::Init(logger);
-            std::vector<Context*> contexts;
-            contexts.push_back(GLFWHandler::createContext(GetParam()));
-            contexts.push_back(GLFWHandler::createContext(GetParam()));
-            contexts.push_back(GLFWHandler::createContext(GetParam()));
-            for (auto context : contexts) {
-                bool glfw_has_context = false;
-                GLFWHandler::forEachContext([&glfw_has_context, &context](Context* ctx, const GLFWwindow* win) {
-                    if (ctx == context) {
-                        glfw_has_context = true;
-                    }
-                });
-                EXPECT_TRUE(glfw_has_context);
-            }
-            GLFWHandler::Terminate();
-        }
-
-
 
     }
 }

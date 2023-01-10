@@ -2,7 +2,7 @@
 #include "Utils/Math/FourierTransforms.h"
 #include "Utils/Math/PolygonMath.h"
 
-namespace mvlizer {
+namespace mvlizer::rendering {
 	VisualizerObject::VisualizerObject(std::shared_ptr<spikeylog::ILogger> logger, Database& database)
 		: logger(logger),
 		database(database),

@@ -4,7 +4,7 @@
 
 #include <GLFW/glfw3.h>
 
-namespace mvlizer {
+namespace mvlizer::rendering {
 	struct Vertex {
 		struct {
 			GLfloat x, y;

@@ -2,7 +2,7 @@
 #include <functional>
 #include <sstream>
 
-namespace mvlizer {
+namespace mvlizer::rendering {
 
 	// Shaders
 	const GLchar* vertexShaderSource = "#version 330 core\n"

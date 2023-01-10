@@ -7,7 +7,7 @@
 #include <vector>
 #include <memory>
 
-namespace mvlizer {
+namespace mvlizer::rendering {
 	class VisualizerObject : public BaseRenderObject {
 	public:
 		VisualizerObject(std::shared_ptr<spikeylog::ILogger> logger, Database& database);
