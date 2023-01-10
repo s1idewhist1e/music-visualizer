@@ -30,7 +30,7 @@ namespace mvlizer::app {
 		}
 
 		int MusicVisualizer::run() {
-			database.renderObjects = std::vector<mvlizer::IRenderObject*>{ new mvlizer::VisualizerObject(logger, database) };
+			database.renderObjects = std::vector<mvlizer::rendering::IRenderObject*>{ new mvlizer::rendering::VisualizerObject(logger, database) };
 			database.update_delay = 16600;
 
 #ifndef NDEBUG
@@ -83,7 +83,7 @@ namespace mvlizer::app {
 		{
 			logger->trace("Rendering thread started");
 			try {
-				mvlizer::Renderer renderer(logger, database);
+				mvlizer::rendering::Renderer renderer(logger, database);
 				renderer.createWindow();
 				renderer.start();
 			}

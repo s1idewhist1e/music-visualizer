@@ -26,7 +26,7 @@ namespace mvlizer::rendering {
 	std::unordered_map<uint16_t, keyCallback> Renderer::keycallbacks = std::unordered_map<uint16_t, keyCallback>();
 	bool Renderer::_isGLFWInit = false;
 
-	Renderer::Renderer(const std::shared_ptr<spikeylog::ILogger> &logger, Database &database)
+	Renderer::Renderer(const std::shared_ptr<spikeylog::ILogger> &logger, data::Database &database)
 		: data(database)
 	{
 

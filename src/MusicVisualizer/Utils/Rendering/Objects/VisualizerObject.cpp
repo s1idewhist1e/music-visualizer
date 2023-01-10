@@ -3,7 +3,7 @@
 #include "Utils/Math/PolygonMath.h"
 
 namespace mvlizer::rendering {
-	VisualizerObject::VisualizerObject(std::shared_ptr<spikeylog::ILogger> logger, Database& database)
+	VisualizerObject::VisualizerObject(std::shared_ptr<spikeylog::ILogger> logger, data::Database& database)
 		: logger(logger),
 		database(database),
 		audioValues()
@@ -39,7 +39,7 @@ namespace mvlizer::rendering {
 		vertices.push_back({ { 1.0f, -1.0f}, {1.0f, 1.0f, 1.0f} });
 
 		elements.clear();
-		elements = PolygonMath::triangulate2DPolygon(vertices);
+		elements = math::PolygonMath::triangulate2DPolygon(vertices);
 		for (int i = 0; i < audioValues.size(); i++) {
 			audioValues[i] = (2 * rand() / (double)RAND_MAX) - 1.0;
 		}

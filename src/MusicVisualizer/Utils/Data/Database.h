@@ -9,7 +9,8 @@
 #include <memory>
 #include "Utils/Rendering/Objects/IRenderObject.h"
 
-namespace mvlizer {
+namespace mvlizer::data {
+
 	class Database {
 	public:
 		Database();
@@ -18,7 +19,7 @@ namespace mvlizer {
 
 		std::shared_ptr<spikeylog::ILogger> logger;
 
-		std::vector<IRenderObject*> renderObjects;
+		std::vector<rendering::IRenderObject*> renderObjects;
 		virtual void setUpdateTime(double time);
 		virtual double getUpdateTime();
 		virtual void setRenderTime(double time);

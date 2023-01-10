@@ -38,7 +38,7 @@ namespace mvlizer::rendering {
 		virtual void createWindow();
 		void destroyWindow();
 		void start();
-		Renderer(const std::shared_ptr<spikeylog::ILogger> &logger, Database &win);
+		Renderer(const std::shared_ptr<spikeylog::ILogger> &logger, data::Database &win);
 		virtual ~Renderer();
 	protected:
 		static std::unordered_map<uint16_t, keyCallback> keycallbacks;
@@ -46,7 +46,7 @@ namespace mvlizer::rendering {
 		static void glfwWindowResizeCallback(GLFWwindow* window, int width, int height);
 		static std::shared_ptr<spikeylog::ILogger> m_logger;
 		GLFWwindow* window = nullptr;
-		Database& data;
+		data::Database& data;
 		static void glfwErrorCallback(int error, const char* description);
 		double frametime;
 		void updateRenderObjects();

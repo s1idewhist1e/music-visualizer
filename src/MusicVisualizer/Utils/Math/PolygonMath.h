@@ -5,8 +5,10 @@
 #include <vector>
 #include "Utils/Rendering/Objects/Vertex.h"
 
-namespace mvlizer {
+namespace mvlizer::math {
+	using mvlizer::rendering::Vertex;
 	class PolygonMath {
+
 	public:
 		static const double pi;
 		static std::vector<int> triangulate2DPolygon(std::vector<Vertex> vertices);
