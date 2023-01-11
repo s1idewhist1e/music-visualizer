@@ -5,7 +5,7 @@
 #include "../../../src/MusicVisualizer/Utils/Data/Database.h"
 
 namespace mvlizer::tests {
-		class MockDatabase : public mvlizer::Database {
+		class MockDatabase : public mvlizer::data::Database {
 		public:
 	/*		MOCK_METHOD(void, setUpdateTime, (double time), (override));
 			MOCK_METHOD(double, getUpdateTime, (), (override));

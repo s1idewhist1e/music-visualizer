@@ -7,19 +7,19 @@
 #include <thread>
 #include <chrono>
 
-namespace mvlizer { // NOLINT(modernize-concat-nested-namespaces)
+namespace mvlizer::rendering { // NOLINT(modernize-concat-nested-namespaces)
 	namespace tests {
 
 		class DatabaseTests : public ::testing::Test {
 		protected:
-			mvlizer::Database database;
-			std::shared_ptr<::testing::NiceMock<MockLogger>> logger;
+			mvlizer::data::Database database;
+			std::shared_ptr<::testing::NiceMock<mvlizer::tests::MockLogger>> logger;
 
 			void SetUp() override {
-				logger = std::make_shared<::testing::NiceMock<MockLogger>>();
+				logger = std::make_shared<::testing::NiceMock<mvlizer::tests::MockLogger>>();
                 std::shared_ptr<spikeylog::ILogger> logger_tmp = logger;
 				this->database.Init(logger_tmp);
-				this->database.renderObjects = { new mvlizer::tests::MockIRenderObject(), new mvlizer::tests::MockIRenderObject(), new mvlizer::tests::MockIRenderObject() };
+				this->database.renderObjects = { new MockIRenderObject(), new MockIRenderObject(), new MockIRenderObject() };
 				EXPECT_CALL(*logger, err)
 					.Times(0);
 			}
