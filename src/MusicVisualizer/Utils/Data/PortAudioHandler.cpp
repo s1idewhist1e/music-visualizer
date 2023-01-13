@@ -84,7 +84,7 @@ namespace mvlizer::data {
 
         auto num_devices = Pa_GetDeviceCount();
         if (num_devices <= 0) {
-            throw audio_error("No audio devices!");
+            throw audio_error("No audio devices! If building from source please make sure you have the appropriate audio libraries! (they vary by system)");
         }
 
 //            std::cout << Pa_GetErrorText(err) << " \n\t >>" << err << std::endl;
