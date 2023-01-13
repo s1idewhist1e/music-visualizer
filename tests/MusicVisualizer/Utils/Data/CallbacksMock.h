@@ -6,7 +6,7 @@
 #define MUSICVISUALIZER_CALLBACKSMOCK_H
 
 #include <gmock/gmock.h>
-#include "MusicVisualizer/Utils/Data/PortAudioStream.h"
+#include "MusicVisualizer/Utils/Data/AudioHandling/PortAudioStream.h"
 
 namespace mvlizer::data {
     namespace tests {

@@ -6,7 +6,7 @@
 #include "PortAudioHandler.h"
 
 namespace mvlizer::data {
-    PortAudioHandler::~PortAudioHandler() {
+    PortAudioHandler::~PortAudioHandler() noexcept(false) {
         auto err = Pa_Terminate();
         if (err != paNoError) {
             std::ostringstream throw_stream;

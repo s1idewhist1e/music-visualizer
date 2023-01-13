@@ -7,7 +7,7 @@
 
 #include "CallbacksMock.h"
 #include "../../LoggerMock.h"
-#include "MusicVisualizer/Utils/Data/PortAudioHandler.h"
+#include "MusicVisualizer/Utils/Data/AudioHandling/PortAudioHandler.h"
 
 namespace mvlizer::data {
     namespace tests {

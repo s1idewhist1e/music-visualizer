@@ -5,8 +5,8 @@
 #ifndef MUSICVISUALIZER_PORTAUDIOHANDLER_H
 #define MUSICVISUALIZER_PORTAUDIOHANDLER_H
 
-#include <spikeylog.h>
-#include <portaudio.h>
+#include "spikeylog.h"
+#include "portaudio.h"
 
 #include <memory>
 #include <vector>
@@ -23,7 +23,7 @@ namespace mvlizer::data {
          */
         explicit PortAudioHandler(std::shared_ptr<spikeylog::ILogger> logger);
 
-        virtual ~PortAudioHandler();
+        virtual ~PortAudioHandler() noexcept(false);
 
         /**
          * Gets a list of audio devices to use when opening a stream
