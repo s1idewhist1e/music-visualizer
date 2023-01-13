@@ -42,13 +42,37 @@ namespace mvlizer::rendering {
         std::list<contextHint> hints;
     };
 
+    /**
+     * A wrapper for GLFW functions implementing the singleton pattern
+     */
     class GLFWHandler {
 	public:
-        static GLFWHandler* GetInstance(std::shared_ptr<spikeylog::ILogger>);
+        /**
+         * Gets the instance of the GLFWHandler singleton
+         * @param in_logger the logger to use if not initialized yet
+         * @return a pointer to the instance
+         */
+        static GLFWHandler* GetInstance(std::shared_ptr<spikeylog::ILogger> in_logger);
 
-        std::atomic<std::shared_ptr<Context>> CreateWindow(const contextCreationArgs&);
+        /**
+         * Creates a window
+         * @param args a contextCreationArgs that provides hints about the creation of the window
+         * @return a std::shared_ptr to the context created
+         *
+         * @throws std::runtime_exception if there is already a window
+         */
+        std::atomic<std::shared_ptr<Context>> CreateWindow(const contextCreationArgs& args);
+
+        /**
+         * Destroys the only window
+         *
+         * @throws std::runtime_exception if no window exists
+         */
         void DestroyWindow();
 
+        /**
+         * The sole window associated with the program
+         */
         std::atomic<std::shared_ptr<Context>> Window;
 
     private:
@@ -59,7 +83,7 @@ namespace mvlizer::rendering {
         static GLFWHandler* instance;
         explicit GLFWHandler(std::shared_ptr<spikeylog::ILogger>);
 
-        static std::shared_ptr<spikeylog::ILogger> logger;
+        std::shared_ptr<spikeylog::ILogger> logger;
 
         std::thread::id init_thread_id;
         std::atomic_bool is_init = false;

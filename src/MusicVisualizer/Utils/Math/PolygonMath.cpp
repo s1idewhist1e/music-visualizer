@@ -2,6 +2,9 @@
 #include "PolygonMath.h"
 
 namespace mvlizer {
+
+    using namespace rendering;
+
 	const double PolygonMath::pi = 3.14159265358979323846;
 
 	std::vector<int> PolygonMath::triangulate2DPolygon(std::vector<Vertex> vertices) {
