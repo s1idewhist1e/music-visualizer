@@ -23,7 +23,7 @@ namespace mvlizer::data {
          */
         explicit PortAudioHandler(std::shared_ptr<spikeylog::ILogger> logger);
 
-        virtual ~PortAudioHandler() noexcept(false);
+        virtual ~PortAudioHandler();
 
         /**
          * Gets a list of audio devices to use when opening a stream

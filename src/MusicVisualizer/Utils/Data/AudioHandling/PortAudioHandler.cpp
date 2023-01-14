@@ -6,13 +6,13 @@
 #include "PortAudioHandler.h"
 
 namespace mvlizer::data {
-    PortAudioHandler::~PortAudioHandler() noexcept(false) {
+    PortAudioHandler::~PortAudioHandler() {
         auto err = Pa_Terminate();
         if (err != paNoError) {
             std::ostringstream throw_stream;
             throw_stream << "Error terminating PortAudio \n\t"
                          << Pa_GetErrorText(err);
-            throw audio_error(throw_stream.str());
+//            throw audio_error(throw_stream.str());
         }
 
     }

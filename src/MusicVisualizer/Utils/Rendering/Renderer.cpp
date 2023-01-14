@@ -267,7 +267,7 @@ namespace mvlizer::rendering {
 			// Draw our first triangle
 			glUseProgram(shaderProgram);
 			glBindVertexArray(VAO);
-			int l;
+			unsigned int l;
 			Vertex* v = compVertexArray(l);
 
 			glBufferData(GL_ARRAY_BUFFER, l * sizeof(Vertex), v, GL_DYNAMIC_DRAW);
@@ -275,7 +275,7 @@ namespace mvlizer::rendering {
 			GLint* e = compElemArray(l);
 
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, l * sizeof(GLint), e, GL_DYNAMIC_DRAW);
-			glDrawElements(GL_TRIANGLES, l, GL_UNSIGNED_INT, 0); // We set the count to 6 since we're drawing 6 vertices now (2 triangles); not 3!
+			glDrawElements(GL_TRIANGLES, l, GL_UNSIGNED_INT, 0);
 			glBindVertexArray(0);
 
 			// Swap the screen buffers
@@ -301,14 +301,14 @@ namespace mvlizer::rendering {
 		}
 	}
 
-	Vertex* Renderer::compVertexArray(int& length)
+	Vertex* Renderer::compVertexArray(unsigned int& length)
 	{
-		int l = 0;
+		unsigned int l = 0;
 		for (IRenderObject* i : data.renderObjects) {
 			l += i->getVertexLength();
 		}
-		Vertex* result = new Vertex[l];
-		int offset = 0;
+		auto* result = new Vertex[l];
+		unsigned int offset = 0;
 		for (IRenderObject* i : data.renderObjects) {
 			Vertex* v = i->getVertexArray();
 			unsigned int size = i->getVertexLength();
@@ -319,20 +319,20 @@ namespace mvlizer::rendering {
 		return result;
 	}
 
-	GLint* Renderer::compElemArray(int& length)
+	GLint* Renderer::compElemArray(unsigned int& length)
 	{
-		int l = 0;
+		unsigned int l = 0;
 		for (IRenderObject* i : data.renderObjects) {
 			l += i->getElementLength();
 		}
-		GLint* result = new GLint[l];
-		int offset = 0;
-		int e_offset = 0;
+		auto* result = new GLint[l];
+		unsigned int offset = 0;
+		unsigned int e_offset = 0;
 		for (IRenderObject* i : data.renderObjects) {
 			GLint* v = i->getElementArray();
 			unsigned int size = i->getElementLength();
 			std::copy(v, v + size, result + offset);
-			for (int index = offset; index < offset + size; ++index) {
+			for (unsigned int index = offset; index < offset + size; ++index) {
 				result[index] += e_offset;
 			}
 			offset += size;

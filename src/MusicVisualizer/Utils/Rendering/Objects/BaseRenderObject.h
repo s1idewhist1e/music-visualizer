@@ -24,6 +24,8 @@ namespace mvlizer::rendering {
 		void tick() override;
 		void render() override;
 
+        ~BaseRenderObject() override = default;
+
 	private:
 		std::shared_timed_mutex mut;
 	protected:

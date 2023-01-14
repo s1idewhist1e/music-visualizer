@@ -50,8 +50,8 @@ namespace mvlizer::rendering {
 		static void glfwErrorCallback(int error, const char* description);
 		double frametime;
 		void updateRenderObjects();
-		Vertex* compVertexArray(int &length);
-		GLint* compElemArray(int& length);
+		Vertex* compVertexArray(unsigned int &length);
+		GLint* compElemArray(unsigned int& length);
 
 	protected:
 		static bool _isGLFWInit;

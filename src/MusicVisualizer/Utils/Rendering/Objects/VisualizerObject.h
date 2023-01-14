@@ -4,6 +4,8 @@
 
 #include "BaseRenderObject.h"
 #include "Utils/Data/Database.h"
+#include "Utils/Data/AudioHandling/PortAudioHandler.h"
+#include "Utils/Data/AudioCallbacks.h"
 #include <vector>
 #include <memory>
 
@@ -11,14 +13,15 @@ namespace mvlizer::rendering {
 	class VisualizerObject : public BaseRenderObject {
 	public:
 		VisualizerObject(std::shared_ptr<spikeylog::ILogger> logger, data::Database& database);
-		void onRender();
-		void onUpdate();
+		void onRender() override;
+		void onUpdate() override;
 	private:
-		std::vector<double> audioValues;
 		std::vector<std::pair<double, double>> transformValues;
 		std::shared_ptr<spikeylog::ILogger> logger;
 		data::Database& database;
-		void updateAudioValues();
+
+        data::PortAudioHandler handler;
+        std::shared_ptr<data::AudioCallbacks> callback;
 	};
 }
 #endif

@@ -4,11 +4,13 @@
 
 #include <vector>
 #include <cmath>
+#include <iterator>
 
 namespace mvlizer {
+    template<std::input_iterator<> T>
 	class FourierTransforms {
 	public:
-		static std::vector<std::pair<double, double>> discreteFourierTransform(std::vector<double> dataset, int stride);
+		static std::vector<std::pair<double, double>> discreteFourierTransform(T begin, T end, int stride);
 	private:
 		FourierTransforms() {};
 	};

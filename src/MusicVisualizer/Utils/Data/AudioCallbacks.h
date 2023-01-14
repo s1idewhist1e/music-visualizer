@@ -6,12 +6,16 @@
 #define MUSICVISUALIZER_AUDIOCALLBACKS_H
 
 #include <deque>
+#include <shared_mutex>
 #include "AudioHandling/IAudioCallback.h"
 
 namespace mvlizer::data {
 
         class AudioCallbacks : public IAudioCallback {
         public:
+
+            AudioCallbacks(unsigned long total_num_frames, unsigned long frames_per_buffer);
+
             /**
              * @inherit
              */
@@ -28,7 +32,14 @@ namespace mvlizer::data {
              */
             void OnFinish() override;
 
+            std::deque<float> GetAudioData();
+
+        private:
             std::deque<float> audio_data;
+            std::shared_mutex mtx;
+
+            unsigned long data_size;
+            unsigned long buffer_size;
 
         };
 
