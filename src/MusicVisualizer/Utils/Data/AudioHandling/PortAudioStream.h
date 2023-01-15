@@ -69,6 +69,9 @@ namespace mvlizer::data {
         virtual PortAudioStreamOpenParameters GetOpenParams();
 
     private:
+
+        static PaStreamParameters getParams(PaDeviceIndex device, int channel_count);
+
         const PaStreamParameters outputParameters;
         const PaStreamParameters inputParameters;
 

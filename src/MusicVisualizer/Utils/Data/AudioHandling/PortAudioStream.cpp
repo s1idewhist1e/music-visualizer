@@ -18,19 +18,8 @@ namespace mvlizer::data {
                   inner_stream{nullptr},
                   callbacks{std::move(callbacks)},
 
-                  inputParameters{
-                          inDevice,
-                          inChannelCount,
-                          paFloat32,
-                          Pa_GetDeviceInfo(inDevice)->defaultLowInputLatency,
-                          nullptr
-                  },
-                  outputParameters{
-                          outDevice,
-                          outChannelCount,
-                          paFloat32,
-                          Pa_GetDeviceInfo(outDevice)->defaultLowOutputLatency,
-                          nullptr
+                  inputParameters{getParams(inDevice, inChannelCount)},
+                  outputParameters{getParams(outDevice, outChannelCount)
                   } {
 
         }
@@ -38,11 +27,11 @@ namespace mvlizer::data {
         PortAudioStreamOpenParameters PortAudioStream::GetOpenParams() {
             return {
                     .stream             = &inner_stream,
-                    .inParams           = &inputParameters,
-                    .outParams          = &outputParameters,
+                    .inParams           = inputParameters.device ? &inputParameters : nullptr,
+                    .outParams          = outputParameters.device ? &outputParameters : nullptr,
                     .sampleRate         = SampleRate,
                     .framesPerBuffer    = FramesPerBuffer,
-                    .flags              = paNoFlag,
+                    .flags              = paClipOff,
                     .userData           = this
             };
         }
@@ -55,5 +44,17 @@ namespace mvlizer::data {
 
     void PortAudioStream::finished_callback() {
             callbacks->OnFinish();
+    }
+
+    PaStreamParameters PortAudioStream::getParams(PaDeviceIndex device, int channel_count) {
+        if (device == -1)
+            return {};
+        else return {
+            .device = device,
+            .channelCount = channel_count,
+            .sampleFormat = paFloat32,
+            .suggestedLatency = Pa_GetDeviceInfo(device)->defaultLowInputLatency,
+            .hostApiSpecificStreamInfo = nullptr
+        };
     }
 } // data

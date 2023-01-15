@@ -26,6 +26,9 @@ namespace mvlizer::app {
 		MusicVisualizer::MusicVisualizer(int argc, char* argv[])
 			: logger(new spikeylog::Logger(std::cout, std::cerr))
 		{
+
+
+
 			database.Init(logger);
 		}
 

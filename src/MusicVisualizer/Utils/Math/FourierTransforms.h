@@ -7,7 +7,7 @@
 #include <iterator>
 
 namespace mvlizer {
-    template<std::input_iterator<> T>
+    template<std::input_iterator T>
 	class FourierTransforms {
 	public:
 		static std::vector<std::pair<double, double>> discreteFourierTransform(T begin, T end, int stride);

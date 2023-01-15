@@ -8,8 +8,8 @@ namespace mvlizer::rendering {
               logger(logger),
               database(database),
               handler(logger),
-              callback{std::make_shared<data::AudioCallbacks>(10'000, 512)} {
-        auto stream = std::make_shared<data::PortAudioStream>(22050.0, 512, Pa_GetDefaultInputDevice(), 1, 0, 0,
+              callback{std::make_shared<data::AudioCallbacks>(1'000, 512)} {
+        auto stream = std::make_shared<data::PortAudioStream>(Pa_GetDeviceInfo(Pa_GetDefaultInputDevice())->defaultSampleRate, 512, Pa_GetDefaultInputDevice(), 1, -1, 0,
                                                               callback);
         handler.AddAudioStream(stream);
 
