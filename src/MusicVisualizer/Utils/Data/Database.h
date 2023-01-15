@@ -9,16 +9,17 @@
 #include <memory>
 #include "Utils/Rendering/Objects/IRenderObject.h"
 
-namespace mvlizer {
+namespace mvlizer::data {
+
 	class Database {
 	public:
 		Database();
 
-		void Init(std::shared_ptr<spikeylog::ILogger> logger);
+		void Init(std::shared_ptr<spikeylog::ILogger>& logger);
 
 		std::shared_ptr<spikeylog::ILogger> logger;
 
-		std::vector<IRenderObject*> renderObjects;
+		std::vector<rendering::IRenderObject*> renderObjects;
 		virtual void setUpdateTime(double time);
 		virtual double getUpdateTime();
 		virtual void setRenderTime(double time);
@@ -30,9 +31,9 @@ namespace mvlizer {
 
 		virtual ~Database();
 	private:
-		double updateTime;
+		double updateTime = 0;
 		std::shared_mutex update_mut;
-		double renderTime;
+		double renderTime = 0;
 		std::shared_mutex render_mut;
 	};
 

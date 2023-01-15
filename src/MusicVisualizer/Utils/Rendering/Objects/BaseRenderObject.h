@@ -7,7 +7,7 @@
 #include <mutex>
 #include <vector>
 
-namespace mvlizer {
+namespace mvlizer::rendering {
 	class BaseRenderObject : public IRenderObject {
 	public:
 		// locks render thread for update
@@ -15,17 +15,19 @@ namespace mvlizer {
 		// locks shared mutex, should not write any data
 		virtual void onRender() = 0;
 
-		virtual Vertex* getVertexArray();
-		virtual GLint* getElementArray();
+		Vertex* getVertexArray() override;
+		GLint* getElementArray() override;
 
-		unsigned int getVertexLength() { return vertices.size(); }
-		unsigned int getElementLength() { return elements.size(); }
+		unsigned int getVertexLength() override { return vertices.size(); }
+		unsigned int getElementLength() override { return elements.size(); }
 
-		void tick();
-		void render();
+		void tick() override;
+		void render() override;
+
+        ~BaseRenderObject() override = default;
 
 	private:
-		std::shared_timed_mutex mut;
+		std::shared_mutex mut;
 	protected:
 		std::vector<Vertex> vertices;
 		std::vector<GLint> elements;

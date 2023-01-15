@@ -4,9 +4,8 @@
 #include <gmock/gmock.h>
 #include "../../../src/MusicVisualizer/Utils/Data/Database.h"
 
-namespace mvlizer {
-	namespace tests {
-		class MockDatabase : public mvlizer::Database {
+namespace mvlizer::tests {
+		class MockDatabase : public mvlizer::data::Database {
 		public:
 	/*		MOCK_METHOD(void, setUpdateTime, (double time), (override));
 			MOCK_METHOD(double, getUpdateTime, (), (override));
@@ -14,6 +13,5 @@ namespace mvlizer {
 			MOCK_METHOD(double, getRenderTime, (), (override));*/
 		};
 	}
-}
 
 #endif

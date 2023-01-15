@@ -34,8 +34,11 @@
 # build directory
 /build/
 
+# doxygen build directory
+/doxygen/
+
 # visual studio settings
-/.vs/
+#/.vs/
 
 # CLion settings
-/.idea/
+#/.idea/

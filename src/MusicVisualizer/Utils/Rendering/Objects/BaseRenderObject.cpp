@@ -1,15 +1,15 @@
 #include "BaseRenderObject.h"
 
-namespace mvlizer {
+namespace mvlizer::rendering {
 	void BaseRenderObject::tick()
 	{
-		std::unique_lock<std::shared_timed_mutex> write_lock(mut);
+		std::unique_lock<std::shared_mutex> write_lock(mut);
 		onUpdate();
 	}
 
 	void BaseRenderObject::render()
 	{
-		std::shared_lock<std::shared_timed_mutex> read_lock(mut);
+		std::unique_lock<std::shared_mutex> read_lock(mut);
 		onRender();
 	}
 

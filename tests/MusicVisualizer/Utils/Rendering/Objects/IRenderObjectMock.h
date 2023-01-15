@@ -4,12 +4,11 @@
 #include "Utils/Rendering/Objects/IRenderObject.h"
 #include <gmock/gmock.h>
 
-namespace mvlizer {
+namespace mvlizer::rendering {
 	namespace tests {
-		class MockIRenderObject : public mvlizer::IRenderObject {
+		class MockIRenderObject : public IRenderObject {
 		public:
-			MockIRenderObject();
-			MockIRenderObject(mvlizer::IRenderObject prev);
+			MockIRenderObject() = default;
 			MOCK_METHOD(Vertex*, getVertexArray, (), (override));
 			MOCK_METHOD(GLint*, getElementArray, (), (override));
 			MOCK_METHOD(unsigned int, getVertexLength, (), (override));

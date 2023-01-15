@@ -1,7 +1,7 @@
 #include "Database.h"
 #include "Database.h"
 
-namespace mvlizer {
+namespace mvlizer::data {
 	Database::Database()
 		: renderObjects(),
 		should_close(false)
@@ -9,7 +9,7 @@ namespace mvlizer {
 		//logger->trace("dfdfdf");
 	}
 
-	void Database::Init(std::shared_ptr<spikeylog::ILogger> logger) {
+	void Database::Init(std::shared_ptr<spikeylog::ILogger>& logger) {
 		this->logger = logger;
 	}
 

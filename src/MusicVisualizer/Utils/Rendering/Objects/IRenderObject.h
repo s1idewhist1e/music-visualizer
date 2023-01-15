@@ -5,7 +5,7 @@
 #include <spikeylog.h>
 #include "Vertex.h"
 
-namespace mvlizer {
+namespace mvlizer::rendering {
 	class IRenderObject {
 	public: 
 		virtual Vertex* getVertexArray() = 0;
@@ -15,7 +15,7 @@ namespace mvlizer {
 		virtual void render() = 0;
 		virtual void tick() = 0;
 		bool isUpdated = true;
-		virtual ~IRenderObject() {};
+		virtual ~IRenderObject() = default;;
 		
 	};
 }

@@ -1,7 +1,7 @@
 #include <list>
 #include "PolygonMath.h"
 
-namespace mvlizer {
+namespace mvlizer::math {
 	const double PolygonMath::pi = 3.14159265358979323846;
 
 	std::vector<int> PolygonMath::triangulate2DPolygon(std::vector<Vertex> vertices) {
@@ -37,7 +37,7 @@ namespace mvlizer {
 			if (is_convex) {
 				for (auto i = list.begin(); i != list.end(); ++i) {
 					if (i != prev && i != node && i != next) {
-						is_ear = !pointIsInTriangle(( * prev).first, ( * node).first, ( * next).first, ( * i).first);
+						is_ear = !pointIsInTriangle(prev->first, node->first, next->first, i->first);
 						if (!is_ear)
 							break;
 					}
@@ -66,7 +66,7 @@ namespace mvlizer {
 		std::pair<double, double> one(prev.pos.x - curr.pos.x, prev.pos.y - curr.pos.y);
 		std::pair<double, double> two(next.pos.x - curr.pos.x, next.pos.y - curr.pos.y);
 		double cross_3 = one.first * two.second - one.second * two.first;
-		return cross_3 > 0;
+		return cross_3 >= 0;
 	}
 
 
@@ -84,8 +84,8 @@ namespace mvlizer {
 		d2 = sign(t, b, c);
 		d3 = sign(t, c, a);
 
-		has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
-		has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
+		has_neg = (d1 <= 0) || (d2 <= 0) || (d3 <= 0);
+		has_pos = (d1 >= 0) || (d2 >= 0) || (d3 >= 0);
 
 		return !(has_neg && has_pos);
 

@@ -2,7 +2,7 @@
 #include <functional>
 #include <sstream>
 
-namespace mvlizer {
+namespace mvlizer::rendering {
 
 	// Shaders
 	const GLchar* vertexShaderSource = "#version 330 core\n"
@@ -26,7 +26,7 @@ namespace mvlizer {
 	std::unordered_map<uint16_t, keyCallback> Renderer::keycallbacks = std::unordered_map<uint16_t, keyCallback>();
 	bool Renderer::_isGLFWInit = false;
 
-	Renderer::Renderer(const std::shared_ptr<spikeylog::ILogger> &logger, Database &database)
+	Renderer::Renderer(const std::shared_ptr<spikeylog::ILogger> &logger, data::Database &database)
 		: data(database)
 	{
 
@@ -172,7 +172,7 @@ namespace mvlizer {
    // Vertex shader
 		m_logger->trace("Compiling vertex shader...");
 		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+		glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
 		glCompileShader(vertexShader);
 		// Check for compile time errors
 		GLint success;
@@ -180,7 +180,7 @@ namespace mvlizer {
 		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
 		if (!success)
 		{
-			glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+            glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
 			std::ostringstream s;
 			s << "GL Vertex Shader Error: " << infoLog;
 			m_logger->error(s.str());
@@ -190,13 +190,13 @@ namespace mvlizer {
 		}
 		// Fragment shader
 		GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+		glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
 		glCompileShader(fragmentShader);
 		// Check for compile time errors
 		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
 		if (!success)
 		{
-			glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+			glGetShaderInfoLog(fragmentShader, 512, nullptr, infoLog);
 			std::ostringstream s;
 			s << "GL Fragment Shader Error: " << infoLog;
 			m_logger->error(s.str());
@@ -209,7 +209,7 @@ namespace mvlizer {
 		// Check for linking errors
 		glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
 		if (!success) {
-			glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+			glGetProgramInfoLog(shaderProgram, 512, nullptr, infoLog);
 			std::ostringstream s;
 			s << "GL Shader Link Error: " << infoLog;
 			m_logger->error(s.str());
@@ -267,7 +267,7 @@ namespace mvlizer {
 			// Draw our first triangle
 			glUseProgram(shaderProgram);
 			glBindVertexArray(VAO);
-			int l;
+			unsigned int l;
 			Vertex* v = compVertexArray(l);
 
 			glBufferData(GL_ARRAY_BUFFER, l * sizeof(Vertex), v, GL_DYNAMIC_DRAW);
@@ -275,7 +275,7 @@ namespace mvlizer {
 			GLint* e = compElemArray(l);
 
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, l * sizeof(GLint), e, GL_DYNAMIC_DRAW);
-			glDrawElements(GL_TRIANGLES, l, GL_UNSIGNED_INT, 0); // We set the count to 6 since we're drawing 6 vertices now (2 triangles); not 3!
+			glDrawElements(GL_TRIANGLES, l, GL_UNSIGNED_INT, 0);
 			glBindVertexArray(0);
 
 			// Swap the screen buffers
@@ -301,14 +301,14 @@ namespace mvlizer {
 		}
 	}
 
-	Vertex* Renderer::compVertexArray(int& length)
+	Vertex* Renderer::compVertexArray(unsigned int& length)
 	{
-		int l = 0;
+		unsigned int l = 0;
 		for (IRenderObject* i : data.renderObjects) {
 			l += i->getVertexLength();
 		}
-		Vertex* result = new Vertex[l];
-		int offset = 0;
+		auto* result = new Vertex[l];
+		unsigned int offset = 0;
 		for (IRenderObject* i : data.renderObjects) {
 			Vertex* v = i->getVertexArray();
 			unsigned int size = i->getVertexLength();
@@ -319,20 +319,20 @@ namespace mvlizer {
 		return result;
 	}
 
-	GLint* Renderer::compElemArray(int& length)
+	GLint* Renderer::compElemArray(unsigned int& length)
 	{
-		int l = 0;
+		unsigned int l = 0;
 		for (IRenderObject* i : data.renderObjects) {
 			l += i->getElementLength();
 		}
-		GLint* result = new GLint[l];
-		int offset = 0;
-		int e_offset = 0;
+		auto* result = new GLint[l];
+		unsigned int offset = 0;
+		unsigned int e_offset = 0;
 		for (IRenderObject* i : data.renderObjects) {
 			GLint* v = i->getElementArray();
 			unsigned int size = i->getElementLength();
 			std::copy(v, v + size, result + offset);
-			for (int index = offset; index < offset + size; ++index) {
+			for (unsigned int index = offset; index < offset + size; ++index) {
 				result[index] += e_offset;
 			}
 			offset += size;

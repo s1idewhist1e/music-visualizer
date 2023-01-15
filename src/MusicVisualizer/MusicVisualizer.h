@@ -27,7 +27,7 @@ namespace mvlizer {
             int run();
             MusicVisualizer(MusicVisualizer const& previous) = delete;
         protected:
-            mvlizer::Database database;
+            mvlizer::data::Database database;
 
 			std::shared_ptr<spikeylog::ILogger> logger;
 
