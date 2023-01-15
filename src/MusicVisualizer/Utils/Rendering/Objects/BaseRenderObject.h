@@ -24,8 +24,10 @@ namespace mvlizer::rendering {
 		void tick() override;
 		void render() override;
 
+        ~BaseRenderObject() override = default;
+
 	private:
-		std::shared_timed_mutex mut;
+		std::shared_mutex mut;
 	protected:
 		std::vector<Vertex> vertices;
 		std::vector<GLint> elements;

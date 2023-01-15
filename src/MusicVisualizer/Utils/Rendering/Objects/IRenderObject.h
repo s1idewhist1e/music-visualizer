@@ -15,7 +15,7 @@ namespace mvlizer::rendering {
 		virtual void render() = 0;
 		virtual void tick() = 0;
 		bool isUpdated = true;
-		virtual ~IRenderObject() {};
+		virtual ~IRenderObject() = default;;
 		
 	};
 }

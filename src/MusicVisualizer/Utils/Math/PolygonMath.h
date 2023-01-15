@@ -5,8 +5,8 @@
 #include <vector>
 #include "Utils/Rendering/Objects/Vertex.h"
 
-namespace mvlizer {
-    using rendering::Vertex;
+namespace mvlizer::math {
+	using mvlizer::rendering::Vertex;
 	class PolygonMath {
 
 	public:

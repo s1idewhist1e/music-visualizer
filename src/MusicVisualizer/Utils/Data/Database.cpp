@@ -1,7 +1,7 @@
 #include "Database.h"
 #include "Database.h"
 
-namespace mvlizer {
+namespace mvlizer::data {
 	Database::Database()
 		: renderObjects(),
 		should_close(false)

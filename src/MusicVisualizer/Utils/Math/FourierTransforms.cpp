@@ -1,8 +1,12 @@
+#include <deque>
 #include "FourierTransforms.h"
 
 namespace mvlizer {
-	std::vector<std::pair<double, double>> FourierTransforms::discreteFourierTransform(std::vector<double> dataset, int stride)
+
+    template<std::input_iterator T>
+	std::vector<std::pair<double, double>> FourierTransforms<T>::discreteFourierTransform(T begin, T end, int stride)
 	{
+        std::vector<double> dataset(begin, end);
 		const double pi = 3.14159265358979323846;
 		std::vector<std::pair<double, double>> values;
 		for (int i = 1; i < dataset.size(); i+=stride) {
@@ -16,4 +20,6 @@ namespace mvlizer {
 		}
 		return values;
 	}
+
+    template class FourierTransforms<std::deque<float>::iterator>;
 }

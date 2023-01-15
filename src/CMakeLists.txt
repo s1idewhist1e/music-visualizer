@@ -1,4 +1,5 @@
 ﻿set(OpenGL_GL_PREFERENCE GLVND)
+
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 
@@ -12,7 +13,7 @@ target_link_libraries (MusicVisualizer_lib
 	glfw
 	spikeylog 
 	PortAudio
-	${OPENGL_LIBRARIES}
+		${OPENGL_LIBRARIES}
 	${GLEW_LIBRARIES}
 )
 

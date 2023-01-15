@@ -9,7 +9,8 @@
 #include <memory>
 #include "Utils/Rendering/Objects/IRenderObject.h"
 
-namespace mvlizer {
+namespace mvlizer::data {
+
 	class Database {
 	public:
 		Database();
