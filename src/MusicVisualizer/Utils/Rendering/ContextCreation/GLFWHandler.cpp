@@ -5,6 +5,17 @@
 #include <cstring>
 #include "GLFWHandler.h"
 
+
+#define GLFW_HANDLER_IS_INIT() \
+		if(!is_init) { \
+			throw std::runtime_error("GLFW is not init: " __FILE__ ", line " STR_LINE_);\
+		}
+#define GLFW_HANDLER_IS_INIT_THREAD()	\
+		if (init_thread_id != std::this_thread::get_id()) { \
+			throw std::runtime_error("Cannot call GLFW functions at " __FILE__ ":" xstr_(__LINE__) " from threads other then the primary rendering thread."); \
+		} \
+
+
 namespace mvlizer::rendering {
 
     GLFWHandler* GLFWHandler::instance = nullptr;
@@ -18,12 +29,16 @@ namespace mvlizer::rendering {
             instance = new GLFWHandler(in_logger);
         }
 
+
         return instance;
     }
 
-    std::atomic<std::shared_ptr<Context>> GLFWHandler::CreateWindow(const contextCreationArgs& args) {
+    Context* GLFWHandler::CreateWindow(const contextCreationArgs& args) {
 
-        if (window.load() != nullptr) {
+        GLFW_HANDLER_IS_INIT();
+        GLFW_HANDLER_IS_INIT_THREAD();
+
+        if (window != nullptr) {
             throw std::runtime_error("Window already exists. Cannot create multiple windows!");
         }
 
@@ -32,21 +47,28 @@ namespace mvlizer::rendering {
         for (const auto& hint : args.hints) {
             glfwWindowHint(hint.Key, hint.Value);
         }
-        auto win = glfwCreateWindow(args.width, args.height, args.title.c_str(), nullptr, nullptr);
+
+        auto monitor = args.fullscreen ? glfwGetPrimaryMonitor() : nullptr;
+
+        auto win = glfwCreateWindow(args.width, args.height, args.title.c_str(), monitor, nullptr);
         if (!win) {
             throw std::runtime_error("GLFW Window creation failed!");
         }
-        window = std::make_shared<Context>(win);
-        return window.load();
+        window = new Context(win);
+        return window;
     }
 
     void GLFWHandler::DestroyWindow() {
-        if (window.load() == nullptr) {
+
+        GLFW_HANDLER_IS_INIT();
+        GLFW_HANDLER_IS_INIT_THREAD();
+
+        if (window == nullptr) {
             throw std::runtime_error("No window to destroy!");
         }
         logger->trace("Destroying GLFW Window");
-        glfwDestroyWindow(window.load()->window);
-        window.load() = nullptr;
+        glfwDestroyWindow(window->window);
+        window = nullptr;
     }
 
     void GLFWHandler::glfwErrorCallback(int error_code, const char* description) {
@@ -70,6 +92,8 @@ namespace mvlizer::rendering {
         } else {
             logger->trace("GLFW successfully initialized");
         }
+
+        is_init = true;
 
 
 

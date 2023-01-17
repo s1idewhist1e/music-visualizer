@@ -19,14 +19,6 @@
 #define str_(a) #a
 #define xstr_(a) str_(a)
 #define STR_LINE_ xstr_(__LINE__)
-#define GLFW_HANDLER_IS_INIT() \
-		if(!mvlizer::GLFWHandler::is_init) { \
-			throw std::runtime_error("GLFW is not init: " __FILE__ ", line " STR_LINE_);\
-		}
-#define GLFW_HANDLER_IS_INIT_THREAD()	\
-		if (mvlizer::GLFWHandler::init_thread_id != std::this_thread::get_id()) { \
-			throw std::runtime_error("Cannot call GLFW functions at " __FILE__ ":" xstr_(__LINE__) " from threads other then the primary rendering thread."); \
-		} \
 
 namespace mvlizer::rendering {
 
@@ -61,7 +53,7 @@ namespace mvlizer::rendering {
          *
          * @throws std::runtime_exception if there is already a window
          */
-        std::atomic<std::shared_ptr<Context>> CreateWindow(const contextCreationArgs& args);
+        Context* CreateWindow(const contextCreationArgs& args);
 
         /**
          * Destroys the only window
@@ -83,12 +75,11 @@ namespace mvlizer::rendering {
         /**
          * The sole window associated with the program
          */
-        std::atomic<std::shared_ptr<Context>> window = nullptr;
+        Context* window = nullptr;
 
         std::thread::id init_thread_id;
         std::atomic_bool is_init = false;
     };
-
 
 }
 

@@ -94,6 +94,7 @@ namespace mvlizer::app {
 				std::ostringstream s;
 				s << "[RENDERING] " << e.what();
 				logger->fatal(s.str());
+                throw e;
 			}
 
 		}
