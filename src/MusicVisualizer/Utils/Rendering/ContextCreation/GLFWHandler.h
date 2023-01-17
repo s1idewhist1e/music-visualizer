@@ -70,20 +70,20 @@ namespace mvlizer::rendering {
          */
         void DestroyWindow();
 
+    private:
+
+        static void glfwErrorCallback(int error_code, const char* description);
+        static void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+        static std::mutex instance_mtx;
+
+        static GLFWHandler* instance;
+        explicit GLFWHandler(std::shared_ptr<spikeylog::ILogger>);
+        std::shared_ptr<spikeylog::ILogger> logger;
+
         /**
          * The sole window associated with the program
          */
-        std::atomic<std::shared_ptr<Context>> Window;
-
-    private:
-        static void glfwErrorCallback(int error_code, const char* description);
-        static void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-
-        static std::mutex instance_mtx;
-        static GLFWHandler* instance;
-        explicit GLFWHandler(std::shared_ptr<spikeylog::ILogger>);
-
-        std::shared_ptr<spikeylog::ILogger> logger;
+        std::atomic<std::shared_ptr<Context>> window = nullptr;
 
         std::thread::id init_thread_id;
         std::atomic_bool is_init = false;

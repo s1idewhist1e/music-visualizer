@@ -10,7 +10,7 @@ namespace mvlizer::rendering {
         explicit Context(GLFWwindow*);
         void glfwKeyCallback(int key, int scancode, int action, int mods);
 
-        GLFWwindow* window;
+        GLFWwindow* window = nullptr;
 	};
 }
 

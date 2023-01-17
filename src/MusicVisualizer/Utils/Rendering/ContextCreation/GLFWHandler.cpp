@@ -22,11 +22,31 @@ namespace mvlizer::rendering {
     }
 
     std::atomic<std::shared_ptr<Context>> GLFWHandler::CreateWindow(const contextCreationArgs& args) {
-        return std::atomic<std::shared_ptr<Context>>();
+
+        if (window.load() != nullptr) {
+            throw std::runtime_error("Window already exists. Cannot create multiple windows!");
+        }
+
+        logger->trace("Creating GLFW window...");
+
+        for (const auto& hint : args.hints) {
+            glfwWindowHint(hint.Key, hint.Value);
+        }
+        auto win = glfwCreateWindow(args.width, args.height, args.title.c_str(), nullptr, nullptr);
+        if (!win) {
+            throw std::runtime_error("GLFW Window creation failed!");
+        }
+        window = std::make_shared<Context>(win);
+        return window.load();
     }
 
     void GLFWHandler::DestroyWindow() {
-
+        if (window.load() == nullptr) {
+            throw std::runtime_error("No window to destroy!");
+        }
+        logger->trace("Destroying GLFW Window");
+        glfwDestroyWindow(window.load()->window);
+        window.load() = nullptr;
     }
 
     void GLFWHandler::glfwErrorCallback(int error_code, const char* description) {

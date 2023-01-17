@@ -110,12 +110,12 @@ namespace mvlizer::rendering {
 			glfwGetMonitorWorkarea(monitor, &x, &y, &w, &h);
 
 
-			window = glfwCreateWindow(800, 600, "Window Name", nullptr, nullptr);
+			window = glfwCreateWindow(800, 600, "window Name", nullptr, nullptr);
 			if (!window) {
 				throw std::runtime_error("Could not create window!");
 			}
 			else {
-				m_logger->trace("Window successfully created");
+				m_logger->trace("window successfully created");
 				glfwMakeContextCurrent(window);
 
 				m_logger->trace("Initializing GLEW...");
