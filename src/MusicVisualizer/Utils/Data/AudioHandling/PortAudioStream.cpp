@@ -37,7 +37,7 @@ namespace mvlizer::data {
         }
 
         PaStreamCallbackResult
-        PortAudioStream::callback(const float* inputBuffer, const float* outputBuffer, unsigned long framesPerBuffer,
+        PortAudioStream::callback(const int32_t* inputBuffer, const int32_t* outputBuffer, unsigned long framesPerBuffer,
                                   const PaStreamCallbackTimeInfo* timeInfo, PaStreamCallbackFlags flags) {
             return callbacks->OnCall(inputBuffer, outputBuffer, framesPerBuffer, timeInfo, flags);
         }
@@ -52,7 +52,7 @@ namespace mvlizer::data {
         else return {
             .device = device,
             .channelCount = channel_count,
-            .sampleFormat = paFloat32,
+            .sampleFormat = paInt32,
             .suggestedLatency = Pa_GetDeviceInfo(device)->defaultLowInputLatency,
             .hostApiSpecificStreamInfo = nullptr
         };

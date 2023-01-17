@@ -24,7 +24,7 @@ namespace mvlizer::data {
                                    PaStreamCallbackFlags statusFlags,
                                    void* data) {
         auto streamData = (PortAudioStream*) data;
-        return streamData->callback((float*) input_buffer, (float*) output_buffer, framesPerBuffer, timeInfo,
+        return streamData->callback((int32_t*) input_buffer, (int32_t*) output_buffer, framesPerBuffer, timeInfo,
                                     statusFlags);
     }
 

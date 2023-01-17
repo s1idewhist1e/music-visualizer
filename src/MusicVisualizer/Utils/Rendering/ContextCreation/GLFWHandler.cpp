@@ -68,6 +68,7 @@ namespace mvlizer::rendering {
         }
         logger->trace("Destroying GLFW Window");
         glfwDestroyWindow(window->window);
+        delete window;
         window = nullptr;
     }
 

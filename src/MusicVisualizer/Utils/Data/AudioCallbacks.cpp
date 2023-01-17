@@ -3,6 +3,7 @@
 //
 
 #include <mutex>
+#include <iostream>
 #include "AudioCallbacks.h"
 
 namespace mvlizer::data {
@@ -12,12 +13,14 @@ namespace mvlizer::data {
     }
 
     PaStreamCallbackResult
-    AudioCallbacks::OnCall(const float* inputBuffer, const float* outputBuffer, unsigned long framesPerBuffer,
+    AudioCallbacks::OnCall(const int32_t* inputBuffer, const int32_t* outputBuffer, unsigned long framesPerBuffer,
                            const PaStreamCallbackTimeInfo* timeInfo, PaStreamCallbackFlags flags) {
         {
             std::unique_lock<std::shared_mutex> lk(mtx);
             for (unsigned long i = 0; i < framesPerBuffer; i++) {
-                audio_data.push_front(inputBuffer[i]);
+//                if (std::abs(inputBuffer[i]) > 1)
+//                    std::cout << inputBuffer[i] << std::endl;
+                audio_data.push_front(inputBuffer[i]/(double)INT32_MAX);
                 audio_data.pop_back();
             }
         }

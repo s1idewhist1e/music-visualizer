@@ -11,9 +11,12 @@ namespace mvlizer {
 	class FourierTransforms {
 	public:
 		static std::vector<std::pair<double, double>> discreteFourierTransform(T begin, T end, int stride);
+        static std::vector<std::pair<double, double>> fastFourierTransform(T begin, T end, unsigned char bl_exp);
 	private:
 		FourierTransforms() {};
 	};
+
+
 
 }
 

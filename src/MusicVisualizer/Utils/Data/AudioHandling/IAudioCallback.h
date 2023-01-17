@@ -22,8 +22,8 @@ namespace mvlizer::data {
              * @return
              */
             virtual PaStreamCallbackResult OnCall(
-                    const float* inputBuffer,
-                    const float* outputBuffer,
+                    const int32_t* inputBuffer,
+                    const int32_t* outputBuffer,
                     unsigned long framesPerBuffer,
                     const PaStreamCallbackTimeInfo* timeInfo,
                     PaStreamCallbackFlags flags
