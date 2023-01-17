@@ -20,7 +20,6 @@ This is a fairly simple cross-platform system for visualizing music using a [Fou
 | Dependency |   type   |       Linux (fedora)       |                Windows                 |
 |:----------:|:--------:|:--------------------------:|:--------------------------------------:|
 |    glew    | required | `sudo dnf install libGLEW` | [here](https://glew.sourceforge.net/)  |
-|            |          |                            |                                        |
 
 ### Build Dependencies
 |           Dependency            |                  type                  |        Linux (fedora)         |                 Windows                  |
