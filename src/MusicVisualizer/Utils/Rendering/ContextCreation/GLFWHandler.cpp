@@ -34,22 +34,17 @@ namespace mvlizer::rendering {
     }
 
     GLFWHandler::GLFWHandler(std::shared_ptr<spikeylog::ILogger> in_logger)
-            : logger{in_logger},
+            : logger{std::move(in_logger)},
               init_thread_id{std::this_thread::get_id()} {
 
-
-        int err = glfwInit();
-        if (err != GLFW_NO_ERROR) {
+        if (!glfwInit()) {
 
             char desc[512];
-
-            const char* ptr = &desc;
-
-            glfwGetError(&desc);
-
+            const char* ptr = desc;
+            glfwGetError(&ptr);
 
             std::ostringstream str;
-            str << "Error while initializing glfw: " << desc;
+            str << "Error while initializing glfw: " << ptr;
 
             throw std::runtime_error(str.str());
         } else {
