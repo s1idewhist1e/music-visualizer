@@ -16,7 +16,7 @@ namespace mvlizer {
 				sin += (dataset[j] * std::sin(i * 2 * pi * ((double)j / pi)));
 				cos += (dataset[j] * std::cos(i * 2 * pi * ((double)j / pi)));
 			}
-			values.emplace_back(std::pair<double, double>(sin * 2 * pi / dataset.size(), cos * 2 * pi / dataset.size()));
+			values.emplace_back(std::pair<double, double>(sin * 2 * pi / dataset.size() + 0.01, cos * 2 * pi / dataset.size() - 0.01));
 		}
 		return values;
 	}
