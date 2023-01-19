@@ -9,8 +9,10 @@ namespace mvlizer::rendering {
               database(database),
               handler(logger),
               callback{std::make_shared<data::AudioCallbacks>(1'000, 512)} {
-        auto stream = std::make_shared<data::PortAudioStream>(Pa_GetDeviceInfo(Pa_GetDefaultInputDevice())->defaultSampleRate, 512, Pa_GetDefaultInputDevice(), 1, -1, 0,
-                                                              callback);
+        auto stream = std::make_shared<data::PortAudioStream>(
+                Pa_GetDeviceInfo(Pa_GetDefaultInputDevice())->defaultSampleRate, 512, Pa_GetDefaultInputDevice(), 1, -1,
+                0,
+                callback);
         handler.AddAudioStream(stream);
 
     }
@@ -20,19 +22,23 @@ namespace mvlizer::rendering {
     }
 
     void VisualizerObject::onUpdate() {
-        auto data  = callback->GetAudioData();
-        transformValues = FourierTransforms<std::deque<float>::iterator>::discreteFourierTransform(data.begin(), data.end(), 10);
+        auto data = callback->GetAudioData();
+        transformValues = FourierTransforms<std::deque<float>::iterator>::discreteFourierTransform(data.begin(),
+                                                                                                   data.end(), 10);
         vertices.clear();
-        vertices.reserve(transformValues.size() + 2);
-        vertices.push_back({{-1.0f, -1.0f},
-                            {1.0f,  1.0f, 1.0f}});
+        elements.clear();
+        vertices.reserve(transformValues.size() * 2);
+        elements.reserve(transformValues.size() * 6);
+//        vertices.push_back({{-1.0f, -1.0f},
+//                            {1.0f,  1.0f, 1.0f}});
+//        vertices.push_back({{-1.0f, -1.0f},
+//                            {1.0f,  1.0f, 1.0f}});
 
         for (int i = 0; i < transformValues.size(); i++) {
             vertices.push_back({
                                        {
                                                (2 * (i / (float) (transformValues.size() - 1))) - 1.0f,
-                                               2 * (float) sqrt(transformValues[i].first * transformValues[i].first +
-                                                                transformValues[i].second * transformValues[i].second) -
+                                               2 * (float) transformValues[i].first -
                                                1.0f // Absolute value of the complex result from the fourier transform
                                        },
                                        {
@@ -41,11 +47,32 @@ namespace mvlizer::rendering {
                                                1.0f
                                        }
                                });
+            vertices.push_back({
+
+                                       {
+                                               (2 * (i / (float) (transformValues.size() - 1))) - 1.0f,
+                                               -1.0f // Absolute value of the complex result from the fourier transform
+                                       },
+                                       {
+                                               1.0f,
+                                               1.0f,
+                                               1.0f
+                                       }
+                               });
+
+            if (i != 0) {
+                elements.push_back(i * 4);
+                elements.push_back((i * 4) - 1);
+                elements.push_back((i * 4) - 2);
+                elements.push_back((i * 4) - 1);
+                elements.push_back((i * 4) - 2);
+                elements.push_back((i * 4) - 3);
+            }
         }
         vertices.push_back({{1.0f, -1.0f},
                             {1.0f, 1.0f, 1.0f}});
 
-        elements.clear();
-        elements = math::PolygonMath::triangulate2DPolygon(vertices);
+//        elements.clear();
+//        elements = math::PolygonMath::triangulate2DPolygon(vertices);
     }
 }
