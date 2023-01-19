@@ -24,10 +24,12 @@ namespace mvlizer::rendering {
         transformValues = FourierTransforms<std::deque<float>::iterator>::discreteFourierTransform(data.begin(), data.end(), 1);
         vertices.clear();
         elements.clear();
+        vertices.reserve(transformValues.size() * 2);
         elements.reserve(transformValues.size() * 6);
-        vertices.reserve(transformValues.size() * 2 + 2);
-        vertices.push_back({{-1.0f, 0.0f},
-                            {1.0f,  1.0f, 1.0f}});
+//        vertices.push_back({{-1.0f, -1.0f},
+//                            {1.0f,  1.0f, 1.0f}});
+//        vertices.push_back({{-1.0f, -1.0f},
+//                            {1.0f,  1.0f, 1.0f}});
 
         for (int i = 0; i < transformValues.size(); i++) {
             vertices.push_back({
@@ -41,15 +43,11 @@ namespace mvlizer::rendering {
                                                1.0f
                                        }
                                });
-        }
-        vertices.push_back({{1.0f, -1.0f},
-                            {1.0f, 1.0f, 1.0f}});
-
-        for (int i = transformValues.size() - 1; i >= 0; i--) {
             vertices.push_back({
+
                                        {
                                                (2 * (i / (float) (transformValues.size() - 1))) - 1.0f,
-                                               (float) transformValues[i].second
+                                               (float) -transformValues[i].second // Absolute value of the complex result from the fourier transform
                                        },
                                        {
                                                1.0f,
@@ -57,9 +55,18 @@ namespace mvlizer::rendering {
                                                1.0f
                                        }
                                });
+
+            if (i != 0) {
+                elements.push_back(i * 4);
+                elements.push_back((i * 4) - 1);
+                elements.push_back((i * 4) - 2);
+                elements.push_back((i * 4) - 1);
+                elements.push_back((i * 4) - 2);
+                elements.push_back((i * 4) - 3);
+            }
         }
 
-        elements.clear();
-        elements = math::PolygonMath::triangulate2DPolygon(vertices);
+//        elements.clear();
+//        elements = math::PolygonMath::triangulate2DPolygon(vertices);
     }
 }
