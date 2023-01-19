@@ -272,14 +272,21 @@ namespace mvlizer::rendering {
 
 			glBufferData(GL_ARRAY_BUFFER, l * sizeof(Vertex), v, GL_DYNAMIC_DRAW);
 
+            delete v;
+
 			GLint* e = compElemArray(l);
 
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, l * sizeof(GLint), e, GL_DYNAMIC_DRAW);
 			glDrawElements(GL_TRIANGLES, l, GL_UNSIGNED_INT, 0);
-			glBindVertexArray(0);
+
+            delete e;
+
+            glBindVertexArray(0);
 
 			// Swap the screen buffers
 			glfwSwapBuffers(window);
+
+
 		}
 		data.should_close = true;
 		// Properly de-allocate all resources once they've outlived their purpose
