@@ -4,7 +4,7 @@
 namespace mvlizer::math {
 	const double PolygonMath::pi = 3.14159265358979323846;
 
-	std::vector<int> PolygonMath::triangulate2DPolygon(std::vector<Vertex> vertices) {
+	std::vector<int> PolygonMath::triangulate2DPolygon(const std::vector<Vertex>& vertices) {
 		std::vector<int> elements;
 		int i = 0;
 		std::list<std::pair<Vertex, int>> list;
