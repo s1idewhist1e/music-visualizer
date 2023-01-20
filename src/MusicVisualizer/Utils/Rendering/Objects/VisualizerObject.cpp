@@ -22,6 +22,9 @@ namespace mvlizer::rendering {
     void VisualizerObject::onUpdate() {
         auto data  = callback->GetAudioData();
         transformValues = FourierTransforms<std::deque<float>::iterator>::discreteFourierTransform(data.begin(), data.end(), 1);
+
+//        transformValues = {{1, 0.5},{ 0.5, 1},{0.25, 0.25}};
+
         vertices.clear();
         elements.clear();
         vertices.reserve(transformValues.size() * 2);
@@ -57,12 +60,12 @@ namespace mvlizer::rendering {
                                });
 
             if (i != 0) {
-                elements.push_back(i * 4);
-                elements.push_back((i * 4) - 1);
-                elements.push_back((i * 4) - 2);
-                elements.push_back((i * 4) - 1);
-                elements.push_back((i * 4) - 2);
-                elements.push_back((i * 4) - 3);
+                elements.push_back((i * 2) + 1);
+                elements.push_back((i * 2) + 0);
+                elements.push_back((i * 2) - 1);
+                elements.push_back((i * 2) + 0);
+                elements.push_back((i * 2) - 1);
+                elements.push_back((i * 2) - 2);
             }
         }
 

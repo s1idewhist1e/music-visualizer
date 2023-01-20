@@ -240,7 +240,7 @@ namespace mvlizer::rendering {
 
 		GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
 		glEnableVertexAttribArray(posAttrib);
-		glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)0);
+		glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
 
 		GLint colorAttrib = glGetAttribLocation(shaderProgram, "i_color");
 		glEnableVertexAttribArray(colorAttrib);
@@ -249,6 +249,11 @@ namespace mvlizer::rendering {
 		//glBindBuffer(GL_ARRAY_BUFFER, 0); // Note that this is allowed, the call to glVertexAttribPointer registered VBO as the currently bound vertex buffer object so afterwards we can safely unbind
 
 		glBindVertexArray(0); // Unbind VAO (it's always a good thing to unbind any buffer/array to prevent strange bugs)
+
+        int l, l2;
+
+        Vertex* v;
+        GLint* e;
 
 		// Game loop
 		while (!glfwWindowShouldClose(window))
@@ -267,19 +272,18 @@ namespace mvlizer::rendering {
 			// Draw our first triangle
 			glUseProgram(shaderProgram);
 			glBindVertexArray(VAO);
-			unsigned int l;
-			Vertex* v = compVertexArray(l);
 
-			glBufferData(GL_ARRAY_BUFFER, l * sizeof(Vertex), v, GL_DYNAMIC_DRAW);
+
+            compileArrays(v, e, l, l2);
+
+            glBufferData(GL_ARRAY_BUFFER, l * sizeof(Vertex), v, GL_DYNAMIC_DRAW);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, l2 * sizeof(GLint), e, GL_DYNAMIC_DRAW);
 
             delete v;
-
-			GLint* e = compElemArray(l);
-
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, l * sizeof(GLint), e, GL_DYNAMIC_DRAW);
-			glDrawElements(GL_TRIANGLES, l, GL_UNSIGNED_INT, 0);
-
             delete e;
+
+            glDrawElements(GL_TRIANGLES, l2, GL_UNSIGNED_INT, 0);
+
 
             glBindVertexArray(0);
 
@@ -308,7 +312,7 @@ namespace mvlizer::rendering {
 		}
 	}
 
-	Vertex* Renderer::compVertexArray(unsigned int& length)
+	Vertex* Renderer::compVertexArray(int& length)
 	{
 		unsigned int l = 0;
 		for (IRenderObject* i : data.renderObjects) {
@@ -326,7 +330,7 @@ namespace mvlizer::rendering {
 		return result;
 	}
 
-	GLint* Renderer::compElemArray(unsigned int& length)
+	GLint* Renderer::compElemArray(int& length)
 	{
 		unsigned int l = 0;
 		for (IRenderObject* i : data.renderObjects) {
@@ -348,5 +352,40 @@ namespace mvlizer::rendering {
 		length = l;
 		return result;
 	}
+
+    void Renderer::compileArrays(Vertex*& vertices, GLint*& elements, int& vert_length, int& elem_length) {
+        auto vert_result = new std::vector<Vertex>;
+        auto elem_result = new std::vector<GLint>;
+
+
+
+        for(auto* obj : data.renderObjects) {
+
+            // TODO: Make this thread safe
+            int size = obj->getVertexLength();
+            auto ptr = obj->getVertexArray();
+            vert_result->resize(vert_result->size() + size);
+            std::copy(ptr, ptr + size, vert_result->end() - size);
+
+            int e_offset = vert_result->size() - size;
+
+
+
+            auto ptr_2 = obj->getElementArray();
+            unsigned int elem_size = obj->getElementLength();
+
+            elem_result->resize(elem_result->size() + elem_size);
+            std::copy(ptr_2, ptr_2 + elem_size, elem_result->end() - elem_size);
+            for (auto iter = elem_result->end() - elem_size; iter != elem_result->end(); iter++) {
+                *iter += e_offset;
+            }
+
+        }
+
+        vertices = &vert_result->at(0);
+        elements = &elem_result->at(0);
+        vert_length = vert_result->size();
+        elem_length = elem_result->size();
+    }
 }
 
