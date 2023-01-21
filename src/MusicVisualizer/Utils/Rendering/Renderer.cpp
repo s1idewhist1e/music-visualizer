@@ -282,7 +282,7 @@ namespace mvlizer::rendering {
             delete v;
             delete e;
 
-            glDrawElements(GL_TRIANGLES, l2, GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_LINE_STRIP, l2, GL_UNSIGNED_INT, nullptr);
 
 
             glBindVertexArray(0);

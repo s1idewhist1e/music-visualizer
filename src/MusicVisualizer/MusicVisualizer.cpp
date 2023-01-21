@@ -4,6 +4,7 @@
 #include "MusicVisualizer.h"
 #include "Utils/Rendering/Objects/IRenderObject.h"
 #include "Utils/Rendering/Objects/VisualizerObject.h"
+#include "Utils/Rendering/Objects/DirectDataObject.h"
 #include "Utils/Rendering/ContextCreation/GLFWHandler.h"
 #include <GLFW/glfw3.h>
 namespace mvlizer::app {
@@ -33,7 +34,7 @@ namespace mvlizer::app {
 		}
 
 		int MusicVisualizer::run() {
-			database.renderObjects = std::vector<mvlizer::rendering::IRenderObject*>{ new mvlizer::rendering::VisualizerObject(logger, database) };
+			database.renderObjects = std::vector<mvlizer::rendering::IRenderObject*>{ new mvlizer::rendering::DirectDataObject(logger, database) };
 			database.update_delay = 16600;
 
 #ifndef NDEBUG
