@@ -13,8 +13,8 @@ target_link_libraries (MusicVisualizer_lib
 	glfw
 	spikeylog 
 	PortAudio
-		${OPENGL_LIBRARIES}
-	${GLEW_LIBRARIES}
+	OpenGL::GL
+	GLEW::GLEW
 )
 
 target_include_directories (MusicVisualizer_lib PUBLIC "./MusicVisualizer")
