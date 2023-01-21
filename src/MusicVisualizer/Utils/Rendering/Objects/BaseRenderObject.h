@@ -26,8 +26,6 @@ namespace mvlizer::rendering {
 
         ~BaseRenderObject() override = default;
 
-	private:
-		std::shared_mutex mut;
 	protected:
 		std::vector<Vertex> vertices;
 		std::vector<GLint> elements;

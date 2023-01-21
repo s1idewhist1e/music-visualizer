@@ -360,8 +360,7 @@ namespace mvlizer::rendering {
 
 
         for(auto* obj : data.renderObjects) {
-
-            // TODO: Make this thread safe
+            std::shared_lock<std::shared_mutex> lock(obj->access_mutex);
             int size = obj->getVertexLength();
             auto ptr = obj->getVertexArray();
             vert_result->resize(vert_result->size() + size);

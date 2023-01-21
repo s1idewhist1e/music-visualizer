@@ -3,13 +3,13 @@
 namespace mvlizer::rendering {
 	void BaseRenderObject::tick()
 	{
-		std::unique_lock<std::shared_mutex> write_lock(mut);
+		std::unique_lock<std::shared_mutex> write_lock(access_mutex);
 		onUpdate();
 	}
 
 	void BaseRenderObject::render()
 	{
-		std::unique_lock<std::shared_mutex> read_lock(mut);
+		std::unique_lock<std::shared_mutex> read_lock(access_mutex);
 		onRender();
 	}
 

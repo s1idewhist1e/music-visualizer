@@ -3,6 +3,7 @@
 #define IRENDEROBJECT_H
 
 #include <spikeylog.h>
+#include <shared_mutex>
 #include "Vertex.h"
 
 namespace mvlizer::rendering {
@@ -15,7 +16,8 @@ namespace mvlizer::rendering {
 		virtual void render() = 0;
 		virtual void tick() = 0;
 		bool isUpdated = true;
-		virtual ~IRenderObject() = default;;
+		virtual ~IRenderObject() = default;
+        std::shared_mutex access_mutex;
 		
 	};
 }
