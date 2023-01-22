@@ -26,6 +26,9 @@ namespace mvlizer::data {
 		virtual double getRenderTime();
 		std::atomic_bool should_close;
 		std::atomic_int update_delay;
+        std::atomic_bool isFullScreen = false;
+        std::atomic_int width, height;
+
 
 		virtual void update();
 

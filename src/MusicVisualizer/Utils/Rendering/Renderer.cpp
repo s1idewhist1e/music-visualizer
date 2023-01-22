@@ -23,7 +23,7 @@ namespace mvlizer::rendering {
 		"}\n\0";
 
 	std::shared_ptr<spikeylog::ILogger> Renderer::m_logger = nullptr;
-	std::unordered_map<uint16_t, keyCallback> Renderer::keycallbacks = std::unordered_map<uint16_t, keyCallback>();
+	std::unordered_map<uint16_t, Renderer::keyCallback> Renderer::keycallbacks = std::unordered_map<uint16_t, keyCallback>();
 	bool Renderer::_isGLFWInit = false;
 
 	Renderer::Renderer(const std::shared_ptr<spikeylog::ILogger> &logger, data::Database &database)
@@ -44,16 +44,37 @@ namespace mvlizer::rendering {
 				m_logger->trace("Registering GLFW error callback");
 				glfwSetErrorCallback(glfwErrorCallback);
 
-				registerKeyCallback({ GLFW_KEY_ESCAPE, GLFW_PRESS }, [](KeyInputInfo _, GLFWwindow* win) {
+				registerKeyCallback({ GLFW_KEY_ESCAPE, GLFW_PRESS }, [](KeyInputInfo _, GLFWwindow* win, Renderer* obj) {
 					glfwSetWindowShouldClose(win, GL_TRUE);
 					});
 
-				registerKeyCallback({ GLFW_KEY_SPACE, GLFW_PRESS }, [](KeyInputInfo _, GLFWwindow* win) {
+				registerKeyCallback({ GLFW_KEY_SPACE, GLFW_PRESS }, [](KeyInputInfo _, GLFWwindow* win, Renderer* obj) {
 					glfwMakeContextCurrent(win);
 					GLint mode[2];
 					glGetIntegerv(GL_POLYGON_MODE, mode);
 					glPolygonMode(GL_FRONT_AND_BACK, mode[1] == GL_FILL ? GL_LINE : GL_FILL);
 					});
+
+                registerKeyCallback({GLFW_KEY_F11, GLFW_PRESS}, [](KeyInputInfo _, GLFWwindow* win, Renderer* obj) {
+
+                    // TODO: fix this mess
+                    obj->data.isFullScreen = !obj->data.isFullScreen;
+
+                    auto ptr = glfwGetPrimaryMonitor();
+                    auto mode = glfwGetVideoMode(ptr);
+
+
+
+                    int xpos, ypos, width, height;
+                    glfwGetMonitorWorkarea(ptr, &xpos, &ypos, &width, &height);
+
+                    if (obj->data.isFullScreen) {
+                        glfwSetWindowMonitor(win, nullptr, 0, 0, obj->data.width, obj->data.height, 0);
+                    } else {
+                        glfwSetWindowMonitor(win, glfwGetPrimaryMonitor(), xpos, ypos, width, height,
+                                             mode->refreshRate);
+                    }
+                });
 			}
 		}
 		else {
@@ -80,13 +101,18 @@ namespace mvlizer::rendering {
 		}
 		auto callback = keycallbacks[info.asShort];
 
+        Renderer* ptr = (Renderer*)glfwGetWindowUserPointer(window);
+
 		if (callback) {
-			callback(info, window);
+			callback(info, window, ptr);
 		}
 	}
 
 	void Renderer::glfwWindowResizeCallback(GLFWwindow* window, int width, int height)
 	{
+        Renderer* data = (Renderer*)glfwGetWindowUserPointer(window);
+        data->data.width = width;
+        data->data.height = height;
 		glfwMakeContextCurrent(window);
 		glViewport(0, 0, width, height);
 	}
@@ -139,6 +165,8 @@ namespace mvlizer::rendering {
 				int width, height;
 				glfwGetFramebufferSize(window, &width, &height);
 				glViewport(0, 0, width, height);
+
+                glfwSetWindowUserPointer(window, this);
 			}
 		}
 		else {
@@ -147,7 +175,7 @@ namespace mvlizer::rendering {
 
 	}
 
-	keyCallback Renderer::registerKeyCallback(KeyInputInfo keyInfo, keyCallback callback) {
+	Renderer::keyCallback Renderer::registerKeyCallback(KeyInputInfo keyInfo, keyCallback callback) {
 		keyCallback prev = keycallbacks[keyInfo.asShort];
 		keycallbacks[keyInfo.asShort] = callback;
 		return prev;

@@ -28,18 +28,23 @@ namespace mvlizer::rendering {
 
 
 	};
-	
 
-	typedef void(*keyCallback)(KeyInputInfo, GLFWwindow*);
+
 
 	class Renderer{
 	public:
+
+        typedef void(*keyCallback)(KeyInputInfo, GLFWwindow*, Renderer*);
+
+
 		static keyCallback registerKeyCallback(KeyInputInfo keyInfo, keyCallback callback);
 		virtual void createWindow();
 		void destroyWindow();
 		void start();
 		Renderer(const std::shared_ptr<spikeylog::ILogger> &logger, data::Database &win);
 		virtual ~Renderer();
+
+
 	protected:
 		static std::unordered_map<uint16_t, keyCallback> keycallbacks;
 		static void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
