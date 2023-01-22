@@ -28,6 +28,6 @@ set (CMAKE_CXX_STANDARD 20)
 
 include_directories("src")
 
-add_subdirectory("lib")
+add_subdirectory("lib" EXCLUDE_FROM_ALL)
 add_subdirectory("src")
 add_subdirectory("tests")
