@@ -34,18 +34,18 @@ namespace mvlizer::app {
 		}
 
 		int MusicVisualizer::run() {
-			database.renderObjects = std::vector<mvlizer::rendering::IRenderObject*>{ new mvlizer::rendering::DirectDataObject(logger, database) };
-			database.update_delay = 16600;
 
 #ifndef NDEBUG
 			logger->enableLogLevel(spikeylog::LogLevel::DEBUG, 0);
 			logger->enableLogLevel(spikeylog::LogLevel::TRACE, 0);
 #else
-			logger->disableLogLevel(spikeylog::LogLevel::DEBUG, 0);
-			logger->disableLogLevel(spikeylog::LogLevel::TRACE, 0);
+            logger->disableLogLevel(spikeylog::LogLevel::DEBUG, 0);
+            logger->disableLogLevel(spikeylog::LogLevel::TRACE, 0);
 #endif
-			logger->trace("Creating rendering thread...");
-			std::thread renderThread(&MusicVisualizer::rendering_thread, this);
+            database.renderObjects = std::vector<mvlizer::rendering::IRenderObject*>{ new mvlizer::rendering::DirectDataObject(logger, database) };
+            database.update_delay = 16600;
+            logger->trace("Creating rendering thread...");
+            std::thread renderThread(&MusicVisualizer::rendering_thread, this);
 			logger->trace("Creating calculation thread...");
 			std::thread calculationThread(&MusicVisualizer::update_thread, this);
 

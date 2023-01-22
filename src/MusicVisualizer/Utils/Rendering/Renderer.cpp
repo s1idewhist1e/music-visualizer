@@ -57,9 +57,6 @@ namespace mvlizer::rendering {
 
                 registerKeyCallback({GLFW_KEY_F11, GLFW_PRESS}, [](KeyInputInfo _, GLFWwindow* win, Renderer* obj) {
 
-                    // TODO: fix this mess
-                    obj->data.isFullScreen = !obj->data.isFullScreen;
-
                     auto ptr = glfwGetPrimaryMonitor();
                     auto mode = glfwGetVideoMode(ptr);
 
@@ -68,11 +65,24 @@ namespace mvlizer::rendering {
                     int xpos, ypos, width, height;
                     glfwGetMonitorWorkarea(ptr, &xpos, &ypos, &width, &height);
 
+                    int w_x, w_y, w_w, w_h;
+                    glfwGetWindowPos(win, &w_x, &w_y);
+                    glfwGetWindowSize(win, &w_w, &w_h);
+
+
+
                     if (obj->data.isFullScreen) {
-                        glfwSetWindowMonitor(win, nullptr, 0, 0, obj->data.width, obj->data.height, 0);
+                        glfwSetWindowMonitor(win, nullptr, obj->x, obj->y, obj->width, obj->height, 0);
+                        obj->data.isFullScreen = false;
                     } else {
-                        glfwSetWindowMonitor(win, glfwGetPrimaryMonitor(), xpos, ypos, width, height,
+                        obj->width = w_w;
+                        obj->height = w_h;
+                        obj->x = w_x;
+                        obj->y = w_y;
+
+                        glfwSetWindowMonitor(win, glfwGetPrimaryMonitor(), 0, 0, mode->width, mode->height,
                                              mode->refreshRate);
+                        obj->data.isFullScreen = true;
                     }
                 });
 			}
@@ -137,6 +147,8 @@ namespace mvlizer::rendering {
 
 
 			window = glfwCreateWindow(800, 600, "window Name", nullptr, nullptr);
+            data.width = 800;
+            data.height = 600;
 			if (!window) {
 				throw std::runtime_error("Could not create window!");
 			}

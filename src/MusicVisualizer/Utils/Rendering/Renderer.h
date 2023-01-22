@@ -58,6 +58,7 @@ namespace mvlizer::rendering {
         void compileArrays(Vertex*& vertices, GLint*& elements, int& vert_length, int& elem_length);
 		Vertex* compVertexArray(int& length);
 		GLint* compElemArray(int& length);
+        int width, height, x, y;
 
 	protected:
 		static bool _isGLFWInit;
