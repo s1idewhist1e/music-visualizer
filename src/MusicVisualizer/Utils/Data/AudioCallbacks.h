@@ -32,10 +32,12 @@ namespace mvlizer::data {
              */
             void OnFinish() override;
 
-            std::deque<float> GetAudioData();
+            std::pair<std::deque<float>, std::deque<float>> GetAudioData();
 
         private:
-            std::deque<float> audio_data;
+            std::deque<float> audio_data_l;
+            std::deque<float> audio_data_r;
+
             std::shared_mutex mtx;
 
             unsigned long data_size;

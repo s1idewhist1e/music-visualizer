@@ -21,7 +21,7 @@ namespace mvlizer::rendering {
 
     void VisualizerObject::onUpdate() {
         auto data  = callback->GetAudioData();
-        transformValues = FourierTransforms<std::deque<float>::iterator>::discreteFourierTransform(data.begin(), data.end(), 1);
+        transformValues = FourierTransforms<std::deque<float>::iterator>::discreteFourierTransform(data.first.begin(), data.first.end(), 1);
 
 //        transformValues = {{1, 0.5},{ 0.5, 1},{0.25, 0.25}};
 

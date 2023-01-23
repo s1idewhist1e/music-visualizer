@@ -19,7 +19,7 @@ namespace mvlizer::rendering {
 		"out vec4 color;\n"
 		"void main()\n"
 		"{\n"
-		"color = vec4(_color, 1.0f);\n"
+        "color = vec4(_color, 0.7f);\n"
 		"}\n\0";
 
 	std::shared_ptr<spikeylog::ILogger> Renderer::m_logger = nullptr;
@@ -303,6 +303,10 @@ namespace mvlizer::rendering {
 
 			updateRenderObjects();
 
+            if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) {
+                continue;
+            }
+
 
 			// Render
 			// Clear the colorbuffer
@@ -322,7 +326,7 @@ namespace mvlizer::rendering {
             delete v;
             delete e;
 
-            glDrawElements(GL_LINE_STRIP, l2, GL_UNSIGNED_INT, nullptr);
+            glDrawElements(GL_LINES, l2, GL_UNSIGNED_INT, nullptr);
 
 
             glBindVertexArray(0);

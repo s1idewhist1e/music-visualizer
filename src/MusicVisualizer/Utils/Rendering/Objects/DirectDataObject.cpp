@@ -11,11 +11,11 @@ namespace mvlizer {
                   _logger(logger),
                   _data(database),
                   handler(logger),
-                  callbacks{std::make_shared<data::AudioCallbacks>(4096, 256)} {
+                  callbacks{std::make_shared<data::AudioCallbacks>(441, 256)} {
 
             auto stream = std::make_shared<data::PortAudioStream>(
                     Pa_GetDeviceInfo(Pa_GetDefaultInputDevice())->defaultSampleRate,
-                            256,
+                            1,
                             Pa_GetDefaultInputDevice(),
                             2,
                             -1,
@@ -28,33 +28,72 @@ namespace mvlizer {
 
         void DirectDataObject::onUpdate() {
             auto data = callbacks->GetAudioData();
+            auto data_l = data.first;
+            auto data_r = data.second;
             vertices.clear();
-            vertices.reserve(data.size());
+            vertices.reserve(data_l.size() + data_r.size());
             elements.clear();
-            elements.reserve(data.size() * 3);
+            elements.reserve((data_l.size() + data_r.size()) * 2);
 
-            for (int i = 0; i < data.size(); i+=1 ) {
+            auto size_l = data_l.size();
+            auto size_r = data_r.size();
+
+            int division = size_l;
+
+            for (int i = 0; i < data_l.size(); i+= size_l / division) {
                 vertices.push_back({{
-                    (-2 * (i / (float) (data.size() + 1))) + 1.0f,
-                    data[i]
+                                            (-2 * (i / (float) (data_l.size() - 1))) + 1.0f,
+                                            (data_l[i])
                     },
                                     {
                     1.0f,
-                    1.0,
-                    1.0
+                                            0.0,
+                    0.0
                 }});
 
-                if ( i > 2) {
-                    elements.push_back(i - 1);
-                    elements.push_back(i - 2);
-                    elements.push_back(i - 3);
-                }
+                elements.push_back(i / (size_l / division));
+                if (i != 0)
+                    elements.push_back(i / (size_l / division));
+//                if ( i > 2) {
+//                    elements.push_back(i - 1);
+//                    elements.push_back(i - 2);
+//                    elements.push_back(i - 3);
+//                }
             }
 
-            smooth(vertices, elements, 128);
+            elements.pop_back();
+
+            auto offset = vertices.size();
+
+            for (int i = 0; i < data_r.size(); i+= size_r / division
+                    ) {
+                vertices.push_back({{
+                                            (-2 * (i / (float) (data_r.size() - 1))) + 1.0f,
+                                            (data_r[i])
+                                    },
+                                    {
+                                            0.0f,
+                                            0.0,
+                                            1.0
+                                    }});
+
+                elements.push_back(i / (size_r / division) + offset);
+                if (i != 0)
+                    elements.push_back(i / (size_r / division) + offset);
+//                if ( i > 2) {
+//                    elements.push_back(i - 1);
+//                    elements.push_back(i - 2);
+//                    elements.push_back(i - 3);
+//                }
+            }
+
+            elements.pop_back();
+
+//            smooth(vertices, elements, 128);
 
         }
 
+        // TODO: make this work
         void DirectDataObject::smooth(std::vector<Vertex>& list, std::vector<GLint>& elems, int step) {
             size_t size = list.size();
             for (auto iter = list.begin(); iter != list.end() - step; iter++) {
