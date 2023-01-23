@@ -78,7 +78,7 @@ namespace mvlizer::rendering {
         Context* window = nullptr;
 
         std::thread::id init_thread_id;
-        std::atomic_bool is_init = false;
+        bool is_init = false;
     };
 
 }

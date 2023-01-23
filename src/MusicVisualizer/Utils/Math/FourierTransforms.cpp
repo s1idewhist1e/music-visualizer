@@ -3,7 +3,7 @@
 
 namespace mvlizer {
 
-    template<std::input_iterator T>
+    template<typename T>
 	std::vector<std::pair<double, double>> FourierTransforms<T>::discreteFourierTransform(T begin, T end, int stride)
 	{
         std::vector<double> dataset(begin, end);
@@ -21,7 +21,7 @@ namespace mvlizer {
 		return values;
 	}
 
-    template<std::input_iterator T>
+    template<typename T>
     std::vector<std::pair<double, double>>
     FourierTransforms<T>::fastFourierTransform(T begin, T end, unsigned char bl_exp) {
         unsigned long long blocklength = 1 << bl_exp;
