@@ -11,7 +11,7 @@ namespace mvlizer {
                   _logger(logger),
                   _data(database),
                   handler(logger),
-                  callbacks{std::make_shared<data::AudioCallbacks>(441, 256)} {
+                  callbacks{std::make_shared<data::AudioCallbacks>(2048, 256)} {
 
             auto stream = std::make_shared<data::PortAudioStream>(
                     Pa_GetDeviceInfo(Pa_GetDefaultInputDevice())->defaultSampleRate,
@@ -30,6 +30,10 @@ namespace mvlizer {
             auto data = callbacks->GetAudioData();
             auto data_l = data.first;
             auto data_r = data.second;
+
+            smooth(data_r, 32);
+            smooth(data_l, 32);
+
             vertices.clear();
             vertices.reserve(data_l.size() + data_r.size());
             elements.clear();
@@ -94,22 +98,28 @@ namespace mvlizer {
         }
 
         // TODO: make this work
-        void DirectDataObject::smooth(std::vector<Vertex>& list, std::vector<GLint>& elems, int step) {
+        void DirectDataObject::smooth(std::deque<float>& list, int step) {
             size_t size = list.size();
             for (auto iter = list.begin(); iter != list.end() - step; iter++) {
                 double sum = 0;
                 for (int i = 0; i < step; i++) {
-                    sum += (iter + i)->pos.y;
+                    sum += *(iter + i);
                 }
                 sum /= step;
-                iter->pos.y = sum;
-                iter->pos.x = (((double)size / (size - step)) * iter->pos.x) - (((double) size / (size - step)) - 1);
-
+                *iter = sum;
+//
+//                if (*iter < 0.05 || *iter > -0.05) {
+//                    *iter = 0;
+//                } else if (*iter > 0) {
+//                    *iter -= 0.05;
+//                } else {
+//                    *iter += 0.05;
+//                }
 
             }
 
-            list.resize(list.size() - (step));
-            elems.resize(elems.size() - (step * 3));
+            list.resize(size - step);
+
         }
     } // mvlizer
 } // rendering

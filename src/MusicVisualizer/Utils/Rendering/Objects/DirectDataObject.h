@@ -23,7 +23,7 @@ namespace mvlizer {
 
         private:
 
-            static void smooth(std::vector<Vertex>& data, std::vector<GLint>& elem, int step);
+            static void smooth(std::deque<float>& data, int step);
 
             data::Database& _data;
             std::shared_ptr<spikeylog::ILogger> _logger;
